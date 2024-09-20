@@ -59,39 +59,39 @@ const Error404 = lazy(() => import("../pages/Utility/Error404-Page.jsx"));
 const Error500 = lazy(() => import("../pages/Utility/Error500-Page.jsx"));
 
 // UIElement pages
-const UiAlerts = lazy(() => import("../pages/UiElements/UiAlerts.jsx"));
-const UiBadge = lazy(() => import("../pages/UiElements/UiBadge.jsx"));
-const UiBreadcrumb = lazy(() => import("../pages/UiElements/UiBreadcrumb.jsx"));
-const UiButtons = lazy(() => import("../pages/UiElements/UiButtons.jsx"));
-const UiCards = lazy(() => import("../pages/UiElements/UiCards.jsx"));
-const UiCarousel = lazy(() => import("../pages/UiElements/UiCarousel.jsx"));
-const UiDropdown = lazy(() => import("../pages/UiElements/UiDropdowns.jsx"));
-const UiGrid = lazy(() => import("../pages/UiElements/UiGrid.jsx"));
-const UiImages = lazy(() => import("../pages/UiElements/UiImages.jsx"));
-const UiLightbox = lazy(() => import("../pages/UiElements/UiLightbox.jsx"));
-const UiModals = lazy(() => import("../pages/UiElements/UiModals.jsx"));
-const UiOffcanvas = lazy(() => import("../pages/UiElements/UiOffcanvas.jsx"));
-const UiRangeSlider = lazy(() =>
-  import("../pages/UiElements/UiRangeSlider.jsx")
-);
-const UiSessionTimeout = lazy(() =>
-  import("../pages/UiElements/UiSessionTimeout.jsx")
-);
-const UiPagination = lazy(() => import("../pages/UiElements/UiPagination.jsx"));
-const UiProgressBars = lazy(() =>
-  import("../pages/UiElements/UiProgressBars.jsx")
-);
-const UiPlaceholders = lazy(() =>
-  import("../pages/UiElements/UiPlaceholders.jsx")
-);
-const UiTabs = lazy(() => import("../pages/UiElements/UiTabs&Accordions.jsx"));
-const UiTypography = lazy(() => import("../pages/UiElements/UiTypography.jsx"));
-const UiToasts = lazy(() => import("../pages/UiElements/UiToasts.jsx"));
-const UiVideo = lazy(() => import("../pages/UiElements/UiVideo.jsx"));
-const UiPopovers = lazy(() =>
-  import("../pages/UiElements/UiPopovers&Tooltips.jsx")
-);
-const UiRating = lazy(() => import("../pages/UiElements/UiRating.jsx"));
+// const UiAlerts = lazy(() => import("../pages/UiElements/UiAlerts.jsx"));
+// const UiBadge = lazy(() => import("../pages/UiElements/UiBadge.jsx"));
+// const UiBreadcrumb = lazy(() => import("../pages/UiElements/UiBreadcrumb.jsx"));
+// const UiButtons = lazy(() => import("../pages/UiElements/UiButtons.jsx"));
+// const UiCards = lazy(() => import("../pages/UiElements/UiCards.jsx"));
+// const UiCarousel = lazy(() => import("../pages/UiElements/UiCarousel.jsx"));
+// const UiDropdown = lazy(() => import("../pages/UiElements/UiDropdowns.jsx"));
+// const UiGrid = lazy(() => import("../pages/UiElements/UiGrid.jsx"));
+// const UiImages = lazy(() => import("../pages/UiElements/UiImages.jsx"));
+// const UiLightbox = lazy(() => import("../pages/UiElements/UiLightbox.jsx"));
+// const UiModals = lazy(() => import("../pages/UiElements/UiModals.jsx"));
+// const UiOffcanvas = lazy(() => import("../pages/UiElements/UiOffcanvas.jsx"));
+// const UiRangeSlider = lazy(() =>
+//   import("../pages/UiElements/UiRangeSlider.jsx")
+// );
+// const UiSessionTimeout = lazy(() =>
+//   import("../pages/UiElements/UiSessionTimeout.jsx")
+// );
+// const UiPagination = lazy(() => import("../pages/UiElements/UiPagination.jsx"));
+// const UiProgressBars = lazy(() =>
+//   import("../pages/UiElements/UiProgressBars.jsx")
+// );
+// const UiPlaceholders = lazy(() =>
+//   import("../pages/UiElements/UiPlaceholders.jsx")
+// );
+// const UiTabs = lazy(() => import("../pages/UiElements/UiTabs&Accordions.jsx"));
+// const UiTypography = lazy(() => import("../pages/UiElements/UiTypography.jsx"));
+// const UiToasts = lazy(() => import("../pages/UiElements/UiToasts.jsx"));
+// const UiVideo = lazy(() => import("../pages/UiElements/UiVideo.jsx"));
+// const UiPopovers = lazy(() =>
+//   import("../pages/UiElements/UiPopovers&Tooltips.jsx")
+// );
+// const UiRating = lazy(() => import("../pages/UiElements/UiRating.jsx"));
 
 // Forms pages
 const FormEditors = lazy(() => import("../pages/Forms/FormEditors.jsx"));
@@ -317,144 +317,144 @@ const routes = [
     type: "authProtected",
     layout: localStorage.getItem("layoutType"),
   },
-  {
-    path: "/ui-alerts",
-    element: <UiAlerts />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-badge",
-    element: <UiBadge />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-breadcrumb",
-    element: <UiBreadcrumb />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-buttons",
-    element: <UiButtons />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-cards",
-    element: <UiCards />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-carousel",
-    element: <UiCarousel />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-dropdowns",
-    element: <UiDropdown />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-grid",
-    element: <UiGrid />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-images",
-    element: <UiImages />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-lightbox",
-    element: <UiLightbox />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-modals",
-    element: <UiModals />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-offcanvas",
-    element: <UiOffcanvas />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-rangeslider",
-    element: <UiRangeSlider />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-sessiontimeout",
-    element: <UiSessionTimeout />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-pagination",
-    element: <UiPagination />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-progressbars",
-    element: <UiProgressBars />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-placeholders",
-    element: <UiPlaceholders />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-tabs-accordions",
-    element: <UiTabs />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-typography",
-    element: <UiTypography />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-toasts",
-    element: <UiToasts />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-video",
-    element: <UiVideo />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-popovers",
-    element: <UiPopovers />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
-  {
-    path: "/ui-rating",
-    element: <UiRating />,
-    type: "authProtected",
-    layout: layoutTypes.VERTICAL,
-  },
+  // {
+  //   path: "/ui-alerts",
+  //   element: <UiAlerts />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-badge",
+  //   element: <UiBadge />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-breadcrumb",
+  //   element: <UiBreadcrumb />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-buttons",
+  //   element: <UiButtons />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-cards",
+  //   element: <UiCards />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-carousel",
+  //   element: <UiCarousel />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-dropdowns",
+  //   element: <UiDropdown />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-grid",
+  //   element: <UiGrid />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-images",
+  //   element: <UiImages />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-lightbox",
+  //   element: <UiLightbox />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-modals",
+  //   element: <UiModals />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-offcanvas",
+  //   element: <UiOffcanvas />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-rangeslider",
+  //   element: <UiRangeSlider />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-sessiontimeout",
+  //   element: <UiSessionTimeout />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-pagination",
+  //   element: <UiPagination />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-progressbars",
+  //   element: <UiProgressBars />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-placeholders",
+  //   element: <UiPlaceholders />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-tabs-accordions",
+  //   element: <UiTabs />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-typography",
+  //   element: <UiTypography />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-toasts",
+  //   element: <UiToasts />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-video",
+  //   element: <UiVideo />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-popovers",
+  //   element: <UiPopovers />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
+  // {
+  //   path: "/ui-rating",
+  //   element: <UiRating />,
+  //   type: "authProtected",
+  //   layout: layoutTypes.VERTICAL,
+  // },
   {
     path: "/form-elements",
     element: <FormElements />,

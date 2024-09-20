@@ -82,7 +82,7 @@ const Reclamations = () => {
           params: { page, limit: 10 },
         }
       );
-      setData(response.data.contacts);
+      setData(response.data.contacts.reverse());
       setPagination(response.data.pagination);
     } catch (error) {
       console.log(error);
