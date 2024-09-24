@@ -240,7 +240,7 @@ const Login = () => {
                                 <input
                                   type="text"
                                   required={true}
-                                  autoComplete="off"
+                                  autoComplete="on"
                                   name="cred"
                                   id="cred"
                                   placeholder="Email/Phone number"
@@ -282,7 +282,7 @@ const Login = () => {
                                 </span>
                                 <input
                                   type={showPassword ? "text" : "password"}
-                                  autoComplete="off"
+                                  autoComplete="on"
                                   required={true}
                                   name="password"
                                   id="password"

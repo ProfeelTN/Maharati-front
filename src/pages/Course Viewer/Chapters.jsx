@@ -13,7 +13,7 @@ import {
   TabContent,
   TabPane,
 } from "reactstrap";
-const Chapters = ({ chapters }) => {
+const Chapters = ({ chapters, setSelectedChapter }) => {
   const [customActiveTab, setcustomActiveTab] = useState("Chapters");
   const tabid = ["Chapters", "Resources"];
 
@@ -24,7 +24,10 @@ const Chapters = ({ chapters }) => {
   };
   return (
     <div>
-      <div className="page-content" style={{ marginBottom: "2rem" }}>
+      <div
+        className="page-content"
+        style={{ marginBottom: "2rem", marginTop: "1rem" }}
+      >
         <>
           <Col xl={9}>
             <Card className="mb-0">
@@ -80,13 +83,19 @@ const Chapters = ({ chapters }) => {
                               id="custom-primary"
                               role="tabpanel"
                             >
-                              <ul className="message-list mb-0">
+                              <ul
+                                className="message-list mb-0"
+                                style={{ minHeight: "75vh" }}
+                              >
                                 {Object.keys(chapters).length !== 0 &&
                                   customActiveTab === "Chapters" &&
                                   chapters.map((x, index) => (
                                     <li
                                       key={index}
                                       className="unread chapter-item"
+                                      onClick={() => {
+                                        setSelectedChapter(x);
+                                      }}
                                     >
                                       <span className="col-mail col-mail-1">
                                         <a to="#" className="title">
@@ -103,7 +112,7 @@ const Chapters = ({ chapters }) => {
                                         ></div>
                                       </div>
 
-                                      <div className="circular-progress">
+                                      {/* <div className="circular-progress">
                                         <svg
                                           viewBox="0 0 36 36"
                                           className="circular-chart"
@@ -125,7 +134,7 @@ const Chapters = ({ chapters }) => {
                                         <span className="circular-progress-text">
                                           {Math.round(x.scrollProgress)}%
                                         </span>
-                                      </div>
+                                      </div> */}
                                     </li>
                                   ))}
                               </ul>

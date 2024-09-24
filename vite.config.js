@@ -8,7 +8,7 @@ export default defineConfig({
     global: "window",
   },
   server: {
-    host: "0.0.0.0", // Listen on all interfaces
-    port: process.env.PORT || 3000, // Use the port provided by Render or default to 3000
+    host: "0.0.0.0",
+    port: process.env.PORT || 5173,
   },
 });

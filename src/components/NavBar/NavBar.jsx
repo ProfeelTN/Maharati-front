@@ -186,7 +186,7 @@ const Navbar = () => {
                     </li>
                     <li>
                       <i className="fas fa-envelope"></i>Email:
-                      <a >CONTACT@MAHARATI.TN</a>
+                      <a>CONTACT@MAHARATI.TN</a>
                     </li>
                   </ul>
                 </div>

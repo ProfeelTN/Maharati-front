@@ -8,7 +8,7 @@ import Contenu from "./Contenu";
 import { useParams } from "react-router-dom";
 
 function AddLesson() {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState([]);
   const [files, setFiles] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const { auth } = useAuth();
@@ -72,6 +72,7 @@ function AddLesson() {
         formDataToSend.append(key, formData[key]);
       }
     });
+    formDataToSend.append("ChapterContent", []);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_HOST}/courses/${id}/chapters`,
@@ -108,7 +109,7 @@ function AddLesson() {
                   type="file"
                   className="form-control"
                   placeholder="Choose a File"
-                  onChange={TransformFileData}
+                  onChange={(e) => handleFileChange(e)}
                 />
               </div>
             </div>

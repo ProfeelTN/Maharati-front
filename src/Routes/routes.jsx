@@ -142,7 +142,9 @@ const CrudLesson = lazy(() =>
   import("../pages/manage-courses/manage-lesson.jsx")
 );
 
-const CourseViewer = lazy(() => import("../pages/Course Viewer/index.jsx"));
+const CourseViewer = lazy(() =>
+  import("../pages/Course Viewer/CourseViewer.jsx")
+);
 
 // Define all routes in a single array with a type property
 const routes = [
