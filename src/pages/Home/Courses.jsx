@@ -28,12 +28,16 @@ const CourseCard = ({
     <div className="course-style2">
       <div className="course-img">
         <Link to="/course-details.html">
-          <img className="w-100" src={image} alt="Course Img" style={{
-                width: "300px" ,
-                height: "200px",
-                objectFit:
-                  "cover" ,
-              }}/>
+          <img
+            className="w-100"
+            src={image}
+            alt="Course Img"
+            style={{
+              width: "300px",
+              height: "200px",
+              objectFit: "cover",
+            }}
+          />
         </Link>
         <span className="course-price">{price} dt</span>
       </div>
@@ -139,15 +143,19 @@ const Courses = () => {
           data-lg-slide-show="3"
           data-md-slide-show="2"
         >
-          <div className="col-md-6" >
-            <div className="course-style2 layout2" style={{height:'15rem'}}>
+          <div className="col-md-6">
+            <div className="course-style2 layout2" style={{ height: "15rem" }}>
               <div className="course-img">
                 <Link to="/course-details.html">
-                  <img src={courseImg4} alt="Course Img" style={{height:'15rem',width:'15rem'}}/>
+                  <img
+                    src={courseImg4}
+                    alt="Course Img"
+                    style={{ height: "15rem", width: "15rem" }}
+                  />
                 </Link>
                 <span className="course-price">56 dt</span>
               </div>
-              <div className="course-content" >
+              <div className="course-content">
                 <h3 className="course-name">
                   <Link to="/course-details.html" className="text-inherit">
                     Graduation For Engineering & Architect
@@ -191,10 +199,14 @@ const Courses = () => {
             </div>
           </div>
           <div className="col-md-6">
-            <div className="course-style2 layout2 " style={{height:'15rem'}}>
+            <div className="course-style2 layout2 " style={{ height: "15rem" }}>
               <div className="course-img">
                 <Link to="/course-details.html">
-                  <img src={courseImg5} alt="Course Img"  style={{height:'15rem',width:'15rem'}}/>
+                  <img
+                    src={courseImg5}
+                    alt="Course Img"
+                    style={{ height: "15rem", width: "15rem" }}
+                  />
                 </Link>
                 <span className="course-price">56 dt</span>
               </div>
