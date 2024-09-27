@@ -6,13 +6,15 @@ import { faFolder, faFile } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../../hooks/useAuth";
 import Contenu from "./Contenu";
 import { useParams } from "react-router-dom";
+import CreateQuiz from "./CreatQuiz";
 
 function AddLesson() {
-  const [formData, setFormData] = useState([]);
+  const [formData, setFormData] = useState({});
   const [files, setFiles] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const { auth } = useAuth();
   const { id } = useParams();
+  const [contentData, setContentData] = useState([]); // To collect dynamic content from Contenu
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -60,7 +62,9 @@ function AddLesson() {
       [name]: value,
     }));
   };
-
+  const handleContentChange = (content) => {
+    setContentData(content); // Update the content data from Contenu
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formDataToSend = new FormData();
@@ -72,7 +76,11 @@ function AddLesson() {
         formDataToSend.append(key, formData[key]);
       }
     });
-    formDataToSend.append("ChapterContent", []);
+
+    // Ensure ChapterContent is sent as a JSON string of the inputs array
+    contentData.forEach((content, index) => {
+      formDataToSend.append(`ChapterContent`, JSON.stringify(content)); // Append dynamic content
+    });
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_HOST}/courses/${id}/chapters`,
@@ -94,57 +102,52 @@ function AddLesson() {
     <div className="mdk-drawer-layout__content container-Dash m-5">
       <div className="d-flex flex-column flex-sm-row flex-wrap mb-3 align-items-start align-items-sm-center">
         <h1 className="h2 flex mb-2 mb-sm-0 mt-5">Add Lesson</h1>
+        <button className="btn btn-success ms-auto mt-5" onClick={handleSubmit}>
+          Save
+        </button>
       </div>
       <div className="card">
         <div className="card-body">
-          <form onSubmit={handleSubmit}>
-            <div className="row">
-              <label htmlFor="ChapterTitle" className="col-md-2 mt-3">
-                Preview
-              </label>
-              <div className="col-md-6 mt-3">
-                <input
-                  id="ChapterPhoto"
-                  name="ChapterPhoto"
-                  type="file"
-                  className="form-control"
-                  placeholder="Choose a File"
-                  onChange={(e) => handleFileChange(e)}
-                />
-              </div>
+          <div className="row">
+            <label htmlFor="ChapterTitle" className="col-md-2 mt-3">
+              Preview
+            </label>
+            <div className="col-md-6 mt-3">
+              <input
+                id="ChapterPhoto"
+                name="ChapterPhoto"
+                type="file"
+                className="form-control"
+                placeholder="Choose a File"
+                onChange={handleFileChange}
+              />
             </div>
-            <div className="row">
-              <label htmlFor="ChapterTitle" className="col-md-2 mt-3">
-                Title
-              </label>
-              <div className="col-md-6 mt-3">
-                <input
-                  id="ChapterTitle"
-                  name="ChapterTitle"
-                  type="text"
-                  className="form-control"
-                  placeholder="Write an awesome title"
-                  value={formData.ChapterTitle || ""}
-                  onChange={handleChange}
-                />
-              </div>
+          </div>
+          <div className="row">
+            <label htmlFor="ChapterTitle" className="col-md-2 mt-3">
+              Title
+            </label>
+            <div className="col-md-6 mt-3">
+              <input
+                id="ChapterTitle"
+                name="ChapterTitle"
+                type="text"
+                className="form-control"
+                placeholder="Write an awesome title"
+                value={formData.ChapterTitle || ""}
+                onChange={handleChange}
+              />
             </div>
-            <div className="row mt-4">
-              <div className="col-md-8 offset-md-2">
-                <button type="submit" className="btn btn-primary">
-                  Submit Lesson
-                </button>
-              </div>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
       <div className="cards mt-4">
         <div className="card-header">
           <h4 className="card-title">Content</h4>
         </div>
-        <Contenu id={id} />
+        <Contenu id={id} onContentChange={handleContentChange} />
       </div>
+    
       <div className="cards mt-4">
         <div className="card-header">
           <h4 className="card-title">Files</h4>

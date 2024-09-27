@@ -1,35 +1,93 @@
-// components/CreateQuiz.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import "./Quiz.scss";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
-const CreateQuiz = () => {
-  const [text, setText] = useState("");
-  const [options, setOptions] = useState(["", "", "", ""]); // Default 4 options
-  const [correctAnswer, setCorrectAnswer] = useState("");
-  const [chapterId, setChapterId] = useState(""); // Select a chapter
-  const [chapters, setChapters] = useState([]); // Available chapters
-  const { id } = useParams();
+const TestFinal = () => {
+  const location = useLocation();
+  const search = location.search;
+  const { auth } = useAuth();
+  const { id, _id } = useParams(); // Assuming this id is courseID.
+  console.log(id);
+  console.log(_id);
   const [quizzes, setQuizzes] = useState([
-    { text: "", options: ["", "", "", ""], correctAnswer: "", chapterId: "" },
+    {
+      text: "",
+      options: ["", "", "", ""],
+      correctAnswer: "",
+      score: "",
+    },
   ]);
 
+  const [formData, setFormData] = useState({});
+  const [ID, setID] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [formDat, setFormDat] = useState({});
   useEffect(() => {
-    // Fetch chapters for the selected course from the back-end
-    axios
-      .get(`${import.meta.env.VITE_HOST}/courses/${id}`)
-      .then((response) => {
-        console.log(response.data.Chapters);
-        setChapters(response.data.Chapters);
-      })
-      .catch((error) => {
-        console.error("Error fetching chapters", error);
-      });
-  }, [id]);
+    if (id) {
+      const fetchCourseData = async () => {
+        try {
+          const response = await axios.get(
+            `${import.meta.env.VITE_HOST}/courses/${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${auth.accessToken}`,
+              },
+            }
+          );
+          if (search === "?false") {
+            const respons = await axios.get(
+              `${import.meta.env.VITE_HOST}/testfinals/${_id}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${auth.accessToken}`,
+                },
+              }
+            );
+
+            setFormDat(respons.data);
+            if (respons.data.Quizzs) {
+              // Collect quizzes in an array
+              const quizzesArray = respons.data.Quizzs.map((course) => {
+                console.log(course);
+                return {
+                  text: course.question,
+                  options: course.options,
+                  correctAnswer: course.correctAnswer,
+                  score: course.score,
+                  _id: course._id, // Optional: include _id if needed later
+                };
+              });
+
+              // Set quizzes only once
+              setQuizzes(quizzesArray);
+              if (quizzesArray.length > 0) {
+                setID(_id); // Set the ID of the first quiz as an example
+              }
+
+              console.log("Quizzes set:", quizzesArray); // Log the quizzes array
+            } else {
+              console.warn(
+                "Respons data is not defined or does not contain Quizzs"
+              );
+            }
+          }
+          setFormData(response.data);
+        } catch (error) {
+          console.error("Failed to fetch course data:", error);
+          setError("Failed to fetch course data");
+        }
+      };
+
+      fetchCourseData();
+    } else {
+      console.error("ID is undefined or null");
+    }
+  }, [id,_id]);
 
   const handleOptionChange = (quizIndex, optionIndex, value) => {
     const newQuizzes = [...quizzes];
@@ -50,60 +108,103 @@ const CreateQuiz = () => {
     );
     setQuizzes(newQuizzes);
   };
+
   const addQuiz = () => {
     setQuizzes([
       ...quizzes,
-      { text: "", options: ["", "", "", ""], correctAnswer: "", chapterId: "" },
+      {
+        text: "",
+        options: ["", "", "", ""],
+        correctAnswer: "",
+        score: "",
+      },
     ]);
   };
 
   const removeQuiz = (quizIndex) => {
     setQuizzes(quizzes.filter((_, i) => i !== quizIndex));
   };
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
 
-    // Post each quiz individually
-    Promise.all(
-      quizzes.map((quiz) => {
-        const quizData = {
-          text: quiz.text,
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const totalScore = quizzes.reduce(
+      (sum, quiz) => sum + parseFloat(quiz.score || 0),
+      0
+    );
+
+    if (totalScore >= 30) {
+      alert("Total score cannot exceed 20. Please adjust the quiz scores.");
+      return;
+    }
+
+    try {
+      const payload = {
+        courseID: id,
+        courseName: formData.CourseName,
+        Quizzs: quizzes.map((quiz) => ({
+          question: quiz.text,
           options: quiz.options,
           correctAnswer: quiz.correctAnswer,
-          chapterId: quiz.chapterId,
-        };
+          score: quiz.score,
+        })),
+      };
+      console.log("Response:", payload);
 
-        return axios.post(
-          `${import.meta.env.VITE_HOST}/courses/${id}/chapters/${
-            quiz.chapterId
-          }/quiz`,
-          quizData
-        );
-      })
-    )
-      .then(() => {
-        alert("Quizzes created successfully!");
-        // Reset form fields after successful creation
-        setQuizzes([
-          {
-            text: "",
-            options: ["", "", "", ""],
-            correctAnswer: "",
-            chapterId: "",
+      const response = await axios.post(
+        `${import.meta.env.VITE_HOST}/testfinals/new`,
+        payload
+      );
+
+      console.log("Response:", response.data);
+    } catch (error) {
+      console.error("Error creating quizzes:", error.response || error.message);
+      if (error.response && error.response.data) {
+        console.log("Backend error message:", error.response.data);
+      }
+    }
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    const totalScore = quizzes.reduce(
+      (sum, quiz) => sum + parseFloat(quiz.score || 0),
+      0
+    );
+
+    if (totalScore >= 30) {
+      alert("Total score cannot exceed 20. Please adjust the quiz scores.");
+      return;
+    }
+
+    try {
+      const payload = {
+        courseID: id,
+        courseName: formData.CourseName,
+        Quizzs: quizzes.map((quiz) => ({
+          question: quiz.text,
+          options: quiz.options,
+          correctAnswer: quiz.correctAnswer,
+          score: quiz.score,
+        })),
+      };
+      const response = await axios.put(
+        `${import.meta.env.VITE_HOST}/testfinals/${ID}`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.accessToken}`,
           },
-        ]);
-      })
-      .catch((error) => {
-        console.error("Error creating quizzes", error);
-        setError("Failed to create quizzes");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+        }
+      );
+
+      console.log("Updated Quiz Response:", response.data);
+    } catch (error) {
+      console.error("Error updating quizzes:", error.response || error.message);
+      if (error.response && error.response.data) {
+        console.log("Backend error message:", error.response.data);
+      }
+    }
   };
 
   return (
@@ -112,7 +213,7 @@ const CreateQuiz = () => {
         <h4 className="card-title">Create Quiz</h4>
       </div>
       <div className="m-5">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={search === "?true" ? handleSubmit : handleUpdate}>
           {quizzes.map((quiz, quizIndex) => (
             <div key={quizIndex} className="quiz-section">
               <h3 style={{ textDecoration: "underline", fontSize: "1.5rem" }}>
@@ -121,7 +222,7 @@ const CreateQuiz = () => {
               <div>
                 <input
                   type="text"
-                  value={quiz.text}
+                  value={quiz.text || ""}
                   onChange={(e) => {
                     const newQuizzes = [...quizzes];
                     newQuizzes[quizIndex].text = e.target.value;
@@ -135,7 +236,7 @@ const CreateQuiz = () => {
                     textAlign: "center",
                     backgroundColor: "none",
                     border: "none",
-                    borderRadius:'100%'
+                    borderRadius: "100%",
                   }}
                   required
                 />
@@ -143,7 +244,7 @@ const CreateQuiz = () => {
 
               <div>
                 {quiz.options.map((option, optionIndex) =>
-                  optionIndex % 2 === 0 ? ( // Check if the option index is even
+                  optionIndex % 2 === 0 ? (
                     <div key={optionIndex} className="option-container">
                       <div className="option">
                         <input
@@ -174,7 +275,7 @@ const CreateQuiz = () => {
                         </button>
                       </div>
 
-                      {quiz.options[optionIndex + 1] !== undefined && ( // Check if next option exists
+                      {quiz.options[optionIndex + 1] !== undefined && (
                         <div className="option">
                           <input
                             type="text"
@@ -234,25 +335,18 @@ const CreateQuiz = () => {
                   required
                 />
               </div>
-
               <div>
-                <label>Select Chapter:</label>
-                <select
-                  value={quiz.chapterId}
+                <label>Score:</label>
+                <input
+                  type="number"
+                  value={quiz.score}
                   onChange={(e) => {
                     const newQuizzes = [...quizzes];
-                    newQuizzes[quizIndex].chapterId = e.target.value;
+                    newQuizzes[quizIndex].score = e.target.value;
                     setQuizzes(newQuizzes);
                   }}
                   required
-                >
-                  <option value="">Select a Module</option>
-                  {chapters.map((chapter) => (
-                    <option key={chapter._id} value={chapter._id}>
-                      {chapter.ChapterTitle}
-                    </option>
-                  ))}
-                </select>
+                />
               </div>
 
               <button
@@ -273,7 +367,6 @@ const CreateQuiz = () => {
               </button>
             </div>
           ))}
-
           <button
             type="button"
             onClick={addQuiz}
@@ -290,12 +383,13 @@ const CreateQuiz = () => {
           >
             Add Quiz
           </button>
-
-          <button type="submit">Create Quizzes</button>
+          <button type="submit" className="submit-button">
+            {search === "?true" ? "Create Quizzes" : "Update Quizzes"}
+          </button>
         </form>
       </div>
     </div>
   );
 };
 
-export default CreateQuiz;
+export default TestFinal;

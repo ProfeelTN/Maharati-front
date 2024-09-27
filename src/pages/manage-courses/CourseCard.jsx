@@ -67,28 +67,28 @@ const CourseCard = ({
                   <div className="text-muted mr-2">{level}</div>
                 </div>
               </div>
-              <div className="text-center">
-                <Link
-                  className="btnx btnx-sm btnx-white"
-                  to={`/manage-course/${id}`} // Include the ID in the path
-                  style={{ color: "black" }}
-                >
-                  Edit
-                </Link>
-              </div>
             </div>
           </div>
         </div>
       </div>
       <div className="course-card-options">
-        <button
-          onClick={toggleDropdown}
-          aria-haspopup="true"
-          aria-expanded={dropdownOpen}
-          style={{ backgroundColor: "white", border: "none" }}
-        >
-          <i className="material-icons">more_vert</i>
-        </button>
+        <div className="d-flex flex-column">
+          <button
+            onClick={toggleDropdown}
+            aria-haspopup="true"
+            aria-expanded={dropdownOpen}
+            style={{ backgroundColor: "white", border: "none" }}
+          >
+            <i className="material-icons">more_vert</i>
+          </button>
+          <Link
+            className="btnx btnx-sm btnx-white"
+            to={`/manage-course/${id}`} // Include the ID in the path
+            style={{ color: "black" }}
+          >
+            Edit
+          </Link>
+        </div>
         {dropdownOpen && (
           <div className="dropdown-menu show">
             <a className="dropdown-item" href="#">

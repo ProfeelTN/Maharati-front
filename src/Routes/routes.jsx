@@ -27,6 +27,9 @@ const HandleExternalOauth = lazy(() =>
 const Dashboard = lazy(() => import("../pages/Dashboard/index.jsx"));
 // Courses
 const ManageCourses = lazy(() => import("../pages/manage-courses/CoursesDash"));
+//Test
+const TestFinal = lazy(() => import ("../pages/manage-courses/TestFinal.jsx"));
+
 // Calendar
 const Calendar = lazy(() => import("../pages/Calendar/index.jsx"));
 
@@ -275,7 +278,24 @@ const routes = [
     type: "authProtected",
     layout: localStorage.getItem("layoutType"),
   },
-
+  {
+    path: "/Test-Final/:id",
+    element: <TestFinal />,
+    type: "authProtected",
+    layout: localStorage.getItem("layoutType"),
+  },
+  {
+    path: "/Test-Final/:_id/:id",
+    element: <TestFinal />,
+    type: "authProtected",
+    layout: localStorage.getItem("layoutType"),
+  },
+  {
+    path: "/Test-Final",
+    element: <TestFinal />,
+    type: "authProtected",
+    layout: localStorage.getItem("layoutType"),
+  },
   {
     path: "/manage-course/:id",
     element: <CrudCourse />,

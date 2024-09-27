@@ -22,6 +22,7 @@ const ManageCourse = () => {
   });
   const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
+  const [formDat, setFormDat] = useState({});
 
   const [error, setError] = useState("");
   useEffect(() => {
@@ -36,6 +37,16 @@ const ManageCourse = () => {
               },
             }
           );
+          const respons = await axios.get(
+            `${import.meta.env.VITE_HOST}/testfinals/all`,
+            {
+              headers: {
+                Authorization: `Bearer ${auth.accessToken}`,
+              },
+            }
+          );
+
+          setFormDat(respons.data);
           setFormData(response.data);
         } catch (error) {
           console.error("Failed to fetch course data:", error);
@@ -323,13 +334,78 @@ const ManageCourse = () => {
                 <h4 className="card-title">Lessons</h4>
               </div>
               <div className="card-body">
-                <p>
-                  <Link to={id ? `/manage-lesson/${id}` : ""} className="btnd">
-                    Add Lesson <i className="material-icons">add</i>
-                  </Link>
-                </p>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <p style={{ margin: 0 }}>
+                    <Link
+                      to={id ? `/manage-lesson/${id}` : ""}
+                      className="btnd"
+                    >
+                      Add Lesson <i className="material-icons">add</i>
+                    </Link>
+                  </p>
+                  <p style={{ margin: 0 }}>
+                    <Link
+                      to={{
+                        pathname: id ? `/Test-Final/${id}` : "",
+                        search: "true", // Adjust logic for state
+                      }}
+                      className="btnd" style={{backgroundColor:"#053c7a"}}
+                    >
+                      Test Final <i className="material-icons">add</i>
+                    </Link>
+                  </p>
+                </div>
+
                 <div className="nestable" id="nestable-handles-primary">
                   <ul className="nestable-list">
+                    {Array.isArray(formDat) &&
+                      formDat
+                        .filter((course) => course.courseID === id)
+                        .map((course, index) => {
+                          const _id = course._id; // Correctly assign the _id
+                          return (
+                            <li
+                              className="nestable-item nestable-item-handle"
+                              data-id={index}
+                              key={_id || index} // Use course._id as key if available
+                            >
+                              <div className="nestable-content" >
+                                <div className="media align-items-center" style={{backgroundColor:"red"}}>
+                                  <div className="media-body">
+                                    <h5 className="card-title h6 mb-0">
+                                      <a>{course.courseName || "No title"}</a>
+                                    </h5>
+                                    <small className="text-muted">
+                                      {course.updatedAt || "No date"}{" "}
+                                    </small>
+                                  </div>
+                                  <div className="media-right">
+                                    <Link
+                                      to={{
+                                        pathname:
+                                          _id && id
+                                            ? `/Test-Final/${_id}/${id}`
+                                            : "/Test-Final",
+                                        search: "false", // Adjust logic for state
+                                      }}
+                                      className="btn btn-white btn-sm"
+                                    >
+                                      <i className="material-icons">edit</i>
+                                    </Link>
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                          );
+                        })}
+
                     {formData.Chapters &&
                       formData.Chapters.map((chapter, index) => (
                         <li

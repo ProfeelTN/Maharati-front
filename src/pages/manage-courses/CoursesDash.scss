@@ -207,7 +207,7 @@
   }
 }
 .btnx {
-  margin-left: 10rem;
+  margin-top: 5rem;
 }
 .card-header-contenu {
   background-color: #fff;
@@ -221,7 +221,7 @@
     background-color: #ffffff;
     padding: 0.5rem;
     font-size: medium;
-    
+
     &:hover {
       background-color: #f5f5f5; // Change background color on hover
       transition: background-color 0.3s ease; // Smooth transition
@@ -231,7 +231,7 @@
       border-right: none; // Remove border from the last item
     }
     &:first-child {
-      margin-left: 1rem; 
+      margin-left: 1rem;
     }
   }
 }
@@ -272,7 +272,7 @@
             font-weight: 600;
             text-decoration: none;
             color: #fff;
-            background-color: #007bff; // Primary button color
+            background-color: #0077ff; // Primary button color
             border: none;
             border-radius: 0.25rem;
             transition: background-color 0.3s ease, box-shadow 0.3s ease;

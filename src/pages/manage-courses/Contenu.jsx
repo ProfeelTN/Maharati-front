@@ -41,13 +41,12 @@ const contentTypes = [
   { id: 8, label: "Video", image: video, description: "Add a video." },
 ];
 
-function Contenu({ id }) {
+function Contenu({ id, onContentChange }) {
   const [showMenu, setShowMenu] = useState(false);
   const [selectedContent, setSelectedContent] = useState(null);
   const [inputs, setInputs] = useState([]);
   const [openMenus, setOpenMenus] = useState({});
   const [toggleMenuId, setToggleMenuId] = useState(null);
-  const [formData, setFormData] = useState({ ChapterTitle: "" });
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -62,30 +61,6 @@ function Contenu({ id }) {
     };
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formDataToSend = new FormData();
-    formDataToSend.append("ChapterContent", JSON.stringify(inputs));
-    formDataToSend.append("ChapterTitle", formData.ChapterTitle);
-
-    try {
-      console.log("Sending data:", formDataToSend); // Debugging
-      const response = await axios.post(
-        `${import.meta.env.VITE_HOST}/courses/${id}/chapters`,
-        formDataToSend,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
-      console.log("Chapter added successfully", response.data);
-      // Optionally reset form state here
-    } catch (error) {
-      console.error(
-        "Error adding chapter:",
-        error.response ? error.response.data : error.message
-      );
-      // Display error to user
-    }
-  };
-
   const handleFileChange = (e, type) => {
     const file = e.target.files[0];
     if (file) {
@@ -95,8 +70,6 @@ function Contenu({ id }) {
           ...prevState,
           [type]: reader.result,
         }));
-
-        // Update inputs array if the type is "Photo"
         setInputs((prevInputs) =>
           prevInputs.map((input) =>
             input.type === "Photo" ? { ...input, value: reader.result } : input
@@ -115,14 +88,12 @@ function Contenu({ id }) {
           ...prevState,
           [type]: reader.result,
         }));
-
-        // Update inputs array if the type is "Photo"
-
         setInputs((prevInputs) =>
           prevInputs.map((input) =>
             input.type === "Video" ? { ...input, value: reader.result } : input
           )
         );
+        onContentChange(inputs);
       };
       reader.readAsDataURL(file);
     }
@@ -141,6 +112,7 @@ function Contenu({ id }) {
     setInputs((prevInputs) =>
       prevInputs.map((input) => (input.id === id ? { ...input, value } : input))
     );
+    onContentChange(inputs);
   };
 
   const addInputBelow = (id) => {
@@ -375,13 +347,7 @@ function Contenu({ id }) {
         );
     }
   };
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+
   return (
     <div>
       <div className="card-header-contenu">
@@ -401,157 +367,50 @@ function Contenu({ id }) {
       </div>
 
       <div style={{ maxWidth: "60rem", margin: "0 auto" }}>
-        {/* <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <button
-            onClick={() => setShowMenu((prev) => !prev)}
-            style={{
-              cursor: "pointer",
-              border: "none",
-              fontSize: "2rem",
-              backgroundColor: "transparent",
-            }}
-          >
-            +
-          </button>
-          <input
-            type="text"
-            name="ChapterTitle"
-            placeholder="Enter Chapter Title"
-            value={formData.ChapterTitle || ""}
-            onChange={handleChange}
-            style={{ flex: 1, padding: "8px", backgroundColor: "#bebebe4d" }}
-          />
-        </div>
-
-        {showMenu && (
-          <div
-            style={{
-              position: "absolute",
-              marginTop: "8rem",
-              marginLeft: "-12rem",
-              transform: "translate(-50%, -50%)",
-              width: "14rem",
-              height: "18rem",
-              maxHeight: "80vh",
-              border: "1px solid #ccc",
-              padding: "10px",
-              borderRadius: "8px",
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-              overflowY: "auto",
-              backgroundColor: "white",
-            }}
-          >
-            <h4>Select Content Type:</h4>
-            {contentTypes.map((content) => (
-              <div
-                key={content.id}
-                onClick={() => handleSelectContent(content)}
+        {inputs.map((input) => (
+          <div key={input.id} style={{ marginBottom: "15px" }}>
+            {renderInputField(input)}
+            <div style={{ marginTop: "10px" }}>
+              <button
+                type="button"
+                onClick={() => addInputBelow(input.id)}
                 style={{
+                  padding: "6px 12px",
                   cursor: "pointer",
-                  marginBottom: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                  borderBottom: "1px solid #ddd",
-                  padding: "5px 0",
+                  border: "1px solid #007bff",
+                  backgroundColor: "#007bff",
+                  color: "#fff",
+                  borderRadius: "4px",
                 }}
               >
-                <img
-                  src={content.image}
-                  alt={content.label}
-                  style={{ width: "30px", height: "30px", marginRight: "10px" }}
-                />
-                <span>{content.label}</span>
-              </div>
-            ))}
-          </div>
-        )} */}
-
-        <form onSubmit={handleSubmit}>
-          {inputs.map((input) => (
-            <div key={input.id} style={{ marginBottom: "15px" }}>
-              {renderInputField(input)}
-              <div style={{ marginTop: "10px" }}>
-                <button
-                  type="button"
-                  onClick={() => addInputBelow(input.id)}
-                  style={{
-                    padding: "6px 12px",
-                    cursor: "pointer",
-                    border: "1px solid #007bff",
-                    backgroundColor: "#007bff",
-                    color: "#fff",
-                    borderRadius: "4px",
-                  }}
+                Add Below
+              </button>
+              <button
+                onClick={() => toggleMenu(input.id)}
+                style={{
+                  marginTop: "10px",
+                  padding: "8px 12px",
+                  cursor: "pointer",
+                  border: "none",
+                  backgroundColor: "#28a745",
+                  color: "#fff",
+                  borderRadius: "4px",
+                }}
+              >
+                Change Type
+              </button>
+              {toggleMenuId === input.id && (
+                <div
+                  className={`popup-menu ${
+                    toggleMenuId === input.id ? "show" : ""
+                  }`}
                 >
-                  Add Below
-                </button>
-                <button
-                  onClick={() => toggleMenu(input.id)}
-                  style={{
-                    marginTop: "10px",
-                    padding: "8px 12px",
-                    cursor: "pointer",
-                    border: "none",
-                    backgroundColor: "#28a745",
-                    color: "#fff",
-                    borderRadius: "4px",
-                  }}
-                >
-                  Change Type
-                </button>
-                {toggleMenuId === input.id && (
-                  <div
-                    className={`popup-menu ${
-                      toggleMenuId === input.id ? "show" : ""
-                    }`}
-                  >
-                    <div className="popup-menu-content">
-                      {contentTypes.map((content) => (
-                        <div
-                          key={content.id}
-                          onClick={() => handleContentTypeSelection(content)}
-                          className="popup-menu-item"
-                        >
-                          <img
-                            src={content.image}
-                            alt={content.label}
-                            style={{
-                              width: "30px",
-                              height: "30px",
-                              marginRight: "10px",
-                            }}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                {toggleMenuId === input.id && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "100%",
-                      left: "0",
-                      marginTop: "10px",
-                      padding: "10px",
-                      border: "1px solid #ddd",
-                      borderRadius: "4px",
-                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                      backgroundColor: "white",
-                    }}
-                  >
+                  <div className="popup-menu-content">
                     {contentTypes.map((content) => (
                       <div
                         key={content.id}
                         onClick={() => handleContentTypeSelection(content)}
-                        style={{
-                          cursor: "pointer",
-                          marginBottom: "10px",
-                          display: "flex",
-                          alignItems: "center",
-                          borderBottom: "1px solid #ddd",
-                          padding: "5px 0",
-                        }}
+                        className="popup-menu-item"
                       >
                         <img
                           src={content.image}
@@ -562,33 +421,55 @@ function Contenu({ id }) {
                             marginRight: "10px",
                           }}
                         />
-                        <span>{content.label}</span>
                       </div>
                     ))}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
+              {toggleMenuId === input.id && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "100%",
+                    left: "0",
+                    marginTop: "10px",
+                    padding: "10px",
+                    border: "1px solid #ddd",
+                    borderRadius: "4px",
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                    backgroundColor: "white",
+                  }}
+                >
+                  {contentTypes.map((content) => (
+                    <div
+                      key={content.id}
+                      onClick={() => handleContentTypeSelection(content)}
+                      style={{
+                        cursor: "pointer",
+                        marginBottom: "10px",
+                        display: "flex",
+                        alignItems: "center",
+                        borderBottom: "1px solid #ddd",
+                        padding: "5px 0",
+                      }}
+                    >
+                      <img
+                        src={content.image}
+                        alt={content.label}
+                        style={{
+                          width: "30px",
+                          height: "30px",
+                          marginRight: "10px",
+                        }}
+                      />
+                      <span>{content.label}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-          ))}
-          {inputs.length > 0 && (
-            <button
-              type="submit"
-              style={{
-                padding: "10px 20px",
-                cursor: "pointer",
-                border: "1px solid #28a745",
-                backgroundColor: "#28a745",
-                color: "#fff",
-                borderRadius: "4px",
-                marginTop: "1rem",
-                marginBottom: "1rem",
-              }}
-              disabled={inputs.length === 0}
-            >
-              Save Chapter
-            </button>
-          )}
-        </form>
+          </div>
+        ))}
       </div>
     </div>
   );
