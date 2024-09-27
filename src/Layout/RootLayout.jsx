@@ -51,7 +51,7 @@ const RootLayout = (props) => {
         {loading && <Preloader />}
         {showNavbar && <Navbar />}
         <div className="outletBG">
-          <div className="main-content">{props.children}</div>
+          <div className="main">{props.children}</div>
           <a className="scrollToTop scroll-btn" onClick={handleScrollUp}>
             <i className="fa-solid fa-arrow-up"></i>
           </a>
