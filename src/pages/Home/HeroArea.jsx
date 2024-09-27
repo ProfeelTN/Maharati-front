@@ -29,8 +29,6 @@ const CarouselComponent = () => {
     loadImages();
   }, []);
 
- 
-
   return (
     <section className="hero-layout1 style2">
       <PhotoProvider className="no-event">

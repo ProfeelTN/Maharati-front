@@ -1,8 +1,6 @@
 import React from "react";
-import WOW from "wowjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhoneAlt, faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import "wowjs/css/libs/animate.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import about1 from "../../assets/img/about/about-2-1.jpg";
 import about2 from "../../assets/img/about/about-2-2.jpg";
