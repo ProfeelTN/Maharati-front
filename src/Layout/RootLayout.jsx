@@ -6,7 +6,8 @@ import Preloader from "../components/Preloader/Preloader";
 import "./Root.scss";
 import withRouter from "../components/Common/withRouter";
 import ChatWindow from "../components/UI/ChatWindow";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 const RootLayout = (props) => {
   const [loading, setLoading] = useState(true);
   const location = useLocation();
@@ -53,7 +54,8 @@ const RootLayout = (props) => {
         <div className="outletBG">
           <div className="main">{props.children}</div>
           <a className="scrollToTop scroll-btn" onClick={handleScrollUp}>
-            <i className="fa-solid fa-arrow-up"></i>
+            <i >      <FontAwesomeIcon icon={faArrowUp} />
+            </i>
           </a>
           <div className="scrollToTop scroll-btn ">
             <ChatWindow />

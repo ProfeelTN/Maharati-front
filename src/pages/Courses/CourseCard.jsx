@@ -5,7 +5,8 @@ const CourseCard = ({ course }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleClose = () => setShowModal(false);
-
+  console.log(course.CourseImage.ImageLink)
+  console.log(course.CourseName)
   return (
     <div className="">
       <div className="course-style1 has-border">
@@ -19,7 +20,7 @@ const CourseCard = ({ course }) => {
                 objectFit:
                   "cover" ,
               }}
-              src={course.CourseImg}
+              src={course.CourseImage.ImageLink}
               alt="Course Img"
             />
           </Link>

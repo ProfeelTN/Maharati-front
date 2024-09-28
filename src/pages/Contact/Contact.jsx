@@ -2,7 +2,7 @@ import React from "react";
 import ContactSection from "./ContactSection";
 import breadcumbBg from "../../assets/img/breadcumb/ab.jpg"; // Update the path as needed
 import { Link } from "react-router-dom";
-// import { GoogleApiWrapper, Map, Marker } from "google-maps-react";
+import { GoogleApiWrapper, Map, Marker } from "google-maps-react";
 
 const Contact = (props) => {
   const mapStyles = {
@@ -51,14 +51,14 @@ const Contact = (props) => {
           border: "10px solid #b7b6b92a",
         }} // Adjust height as needed
       >
-        {/* <Map
+        <Map
           google={props.google}
           zoom={8}
           style={mapStyles}
           initialCenter={{ lat: 35.8256, lng: 10.6411 }}
         >
           <Marker position={{ lat: 35.8256, lng: 10.6411 }} />
-        </Map> */}
+        </Map>
       </div>
     </div>
   );

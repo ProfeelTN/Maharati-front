@@ -71,12 +71,11 @@ $transition-speed: 0.3s;
     .row {
       display: flex;
       flex-wrap: wrap;
-      
+
       .col-md-4 {
         .div1 {
           flex: 0 0 33.33%;
           overflow: hidden; /* Hide overflow content */
-          
         }
       }
 
@@ -217,4 +216,87 @@ $transition-speed: 0.3s;
   margin-bottom: 30px;
 }
 
-// Add more styling as necessary
+/*------------------- 4.5. Pagination  -------------------*/
+.vs-pagination {
+  text-align: center;
+  margin: 40px auto 30px auto;
+  padding: 15px 0;
+  width: -moz-max-content;
+  width: max-content;
+  position: relative;
+  z-index: 1;
+}
+.vs-pagination:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 35px;
+  left: 35px;
+  z-index: -1;
+  border-radius: 20px;
+  background-color: var(--smoke-color);
+}
+.vs-pagination ul {
+  margin: 0;
+  padding: 0;
+}
+.vs-pagination li {
+  display: inline-block;
+  margin: 0 3px;
+  list-style-type: none;
+}
+.vs-pagination a {
+  display: inline-block;
+  border: none;
+  vertical-align: middle;
+  padding: 0;
+  font-size: 18px;
+  font-weight: 500;
+  height: var(--icon-size, 58px);
+  width: var(--icon-size, 58px);
+  line-height: var(--icon-size, 58px);
+  text-align: center;
+  background-color: var(--white-color);
+  color: var(--title-color);
+  font-family: var(--body-font);
+  z-index: 1;
+  border-radius: 20px;
+}
+.vs-pagination a:hover {
+  color: var(--white-color);
+  background-color: var(--theme-color);
+}
+.vs-pagination .next a,
+.vs-pagination .prev a {
+  display: block;
+  width: auto;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 0 30px;
+  background-color: var(--theme-color3);
+  color: var(--white-color);
+  border-radius: 28px;
+}
+.vs-pagination .next a:hover,
+.vs-pagination .prev a:hover {
+  background-color: var(--theme-color2);
+}
+@media (max-width: 991px) {
+  .vs-pagination a {
+    --icon-size: 40px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 575px) {
+  .vs-pagination a {
+    --icon-size: 30px;
+    font-size: 10px;
+  }
+  .vs-pagination .next a,
+  .vs-pagination .prev a {
+    font-size: 12px;
+    padding: 0 10px;
+    border-radius: 10px;
+  }
+}

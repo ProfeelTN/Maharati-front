@@ -7,7 +7,7 @@ const CourseSection = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const coursesPerPage = 4;
+  const coursesPerPage = 6;
 
   useEffect(() => {
     const fetchData = async () => {

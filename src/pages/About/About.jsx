@@ -60,7 +60,6 @@ const About = () => {
         ref={TeamRef}
         className={`animate-on-scroll ${isTeamVisible ? "is-visible" : ""}`}
       >
-        {/* <Team /> */}
       </div>
     </div>
   );
