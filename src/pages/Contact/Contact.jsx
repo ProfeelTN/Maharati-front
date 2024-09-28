@@ -1,13 +1,18 @@
 import React from "react";
 import ContactSection from "./ContactSection";
-import breadcumbBg from "../../assets/img/breadcumb/ab.jpg"; // Update the path as needed
+import breadcumbBg from "../../assets/img/breadcumb/ab.jpg";
 import { Link } from "react-router-dom";
-import { GoogleApiWrapper, Map, Marker } from "google-maps-react";
+import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
-const Contact = (props) => {
+const Contact = () => {
   const mapStyles = {
     width: "100%",
     height: "100%",
+  };
+
+  const center = {
+    lat: 35.8256,
+    lng: 10.6411,
   };
 
   return (
@@ -39,6 +44,7 @@ const Contact = (props) => {
           </div>
         </div>
       </div>
+
       <ContactSection />
 
       <div
@@ -49,23 +55,16 @@ const Contact = (props) => {
           height: "400px",
           margin: "0rem 15rem",
           border: "10px solid #b7b6b92a",
-        }} // Adjust height as needed
+        }}
       >
-        <Map
-          google={props.google}
-          zoom={8}
-          style={mapStyles}
-          initialCenter={{ lat: 35.8256, lng: 10.6411 }}
-        >
-          <Marker position={{ lat: 35.8256, lng: 10.6411 }} />
-        </Map>
+        <LoadScript googleMapsApiKey={import.meta.env.GOOGLE_MAPS_API_KEY}>
+          <GoogleMap mapContainerStyle={mapStyles} center={center} zoom={8}>
+            <Marker position={center} />
+          </GoogleMap>
+        </LoadScript>
       </div>
     </div>
   );
 };
 
-export default // GoogleApiWrapper({
-//   apiKey: "AIzaSyAbvyBxmMbFhrzP9Z8moyYr6dCr-pzjhBE",
-//   v: "3",
-// })
-Contact;
+export default Contact;
