@@ -6,9 +6,13 @@ import Heading3 from "../../assets/images/contentTypes/Heading3.png";
 import todoList from "../../assets/images/contentTypes/todoList.png";
 import photo from "../../assets/images/contentTypes/photo.png";
 import video from "../../assets/images/contentTypes/video.png";
+import Quiz from "../../assets/images/contentTypes/Quiz.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import "./CoursesDash.scss";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth.js";
+import { useParams } from "react-router-dom";
 
 const contentTypes = [
   { id: 1, label: "Text", image: textIcon, description: "Write text content." },
@@ -21,24 +25,25 @@ const contentTypes = [
   },
   {
     id: 4,
-    label: "Heading 1",
+    label: "Heading1",
     image: Heading1,
     description: "Add a main heading.",
   },
   {
     id: 5,
-    label: "Heading 2",
+    label: "Heading2",
     image: Heading2,
     description: "Add a sub-heading.",
   },
   {
     id: 6,
-    label: "Heading 3",
+    label: "Heading3",
     image: Heading3,
     description: "Add a minor heading.",
   },
   { id: 7, label: "Photo", image: photo, description: "Add a photo." },
   { id: 8, label: "Video", image: video, description: "Add a video." },
+  { id: 9, label: "Quiz", image: Quiz, description: "Add a Quiz." },
 ];
 
 function Contenu({ id, onContentChange }) {
@@ -47,6 +52,9 @@ function Contenu({ id, onContentChange }) {
   const [inputs, setInputs] = useState([]);
   const [openMenus, setOpenMenus] = useState({});
   const [toggleMenuId, setToggleMenuId] = useState(null);
+  const [quizzes, setQuizzes] = useState([
+    { question: "", options: ["", "", "", ""], correctAnswer: "" },
+  ]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -61,51 +69,54 @@ function Contenu({ id, onContentChange }) {
     };
   }, []);
 
-  const handleFileChange = (e, type) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData((prevState) => ({
-          ...prevState,
-          [type]: reader.result,
-        }));
-        setInputs((prevInputs) =>
-          prevInputs.map((input) =>
-            input.type === "Photo" ? { ...input, value: reader.result } : input
-          )
-        );
-      };
-      reader.readAsDataURL(file);
-    }
+  const handleFileChange = (e, id) => {
+    const file = e.target.files[0]; // Get the selected file
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      // Update the input state with the new file data
+      setInputs((prevInputs) =>
+        prevInputs.map((input) =>
+          input.id === id ? { ...input, value: reader.result } : input
+        )
+      );
+      onContentChange([{ id, type: "Photo", value: reader.result }]);
+      // Update the chapter content when the file is loaded
+      // Ensures ChapterContent is an array
+    };
+
+    reader.readAsDataURL(file);
   };
-  const handleFileChangeA = (e, type) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData((prevState) => ({
-          ...prevState,
-          [type]: reader.result,
-        }));
-        setInputs((prevInputs) =>
-          prevInputs.map((input) =>
-            input.type === "Video" ? { ...input, value: reader.result } : input
-          )
-        );
-        onContentChange(inputs);
-      };
-      reader.readAsDataURL(file);
-    }
+  const handleFileChangeA = (e, id) => {
+    const file = e.target.files[0]; // Get the selected file
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      // Update the input state with the new file data
+      setInputs((prevInputs) =>
+        prevInputs.map((input) =>
+          input.id === id ? { ...input, value: reader.result } : input
+        )
+      );
+      onContentChange([{ id, type: "Video", value: reader.result }]);
+      // Update the chapter content when the file is loaded
+      // Ensures ChapterContent is an array
+    };
+
+    reader.readAsDataURL(file);
   };
   const handleSelectContent = (content) => {
-    setSelectedContent(content);
-    setShowMenu(false);
+    const newInput = {
+      id: Date.now(),
+      type: content.label,
+      value: content.label === "Quiz" ? quizzes : "",
+    };
 
-    setInputs((prevInputs) => [
-      ...prevInputs,
-      { id: Date.now(), type: content.label, value: "" },
-    ]);
+    setInputs((prevInputs) => [...prevInputs, newInput]);
+    onContentChange([...inputs, newInput]);
+    setShowMenu(false);
   };
 
   const handleInputChange = (id, value) => {
@@ -113,8 +124,9 @@ function Contenu({ id, onContentChange }) {
       prevInputs.map((input) => (input.id === id ? { ...input, value } : input))
     );
     onContentChange(inputs);
+    console.log(quizzes);
+    console.log(inputs);
   };
-
   const addInputBelow = (id) => {
     setOpenMenus((prev) => ({ ...prev, [id]: !prev[id] }));
 
@@ -130,6 +142,7 @@ function Contenu({ id, onContentChange }) {
         newInput,
         ...prevInputs.slice(index + 1),
       ]);
+      onContentChange([...quizzes, newInput]);
     }
   };
 
@@ -145,50 +158,248 @@ function Contenu({ id, onContentChange }) {
     );
     setToggleMenuId(null);
   };
-  const handleToDoItemChange = (inputId, itemId, value) => {
-    setInputs((prevInputs) =>
-      prevInputs.map((input) =>
-        input.id === inputId
-          ? {
-              ...input,
-              value: input.value.map((item) =>
-                item.id === itemId ? { ...item, value } : item
-              ),
-            }
-          : input
-      )
-    );
+  const handleOptionChange = (quizIndex, optionIndex, value) => {
+    setQuizzes((prevQuizzes) => {
+      const newQuizzes = [...prevQuizzes];
+      newQuizzes[quizIndex].options[optionIndex] = value;
+
+      // Also update the corresponding quiz in the inputs state
+      setInputs((prevInputs) =>
+        prevInputs.map((input) =>
+          input.type === "Quiz" && input.value === newQuizzes[quizIndex]
+            ? { ...input, value: newQuizzes[quizIndex] }
+            : input
+        )
+      );
+      return newQuizzes;
+    });
   };
-  const addToDoItem = (inputId) => {
-    setInputs((prevInputs) =>
-      prevInputs.map((input) =>
-        input.id === inputId
-          ? {
-              ...input,
-              value: [
-                ...(input.value || []),
-                { id: Date.now(), value: "", completed: false },
-              ],
-            }
-          : input
-      )
-    );
+  const handleCorrectAnswerChange = (quizIndex, value) => {
+    setQuizzes((prevQuizzes) => {
+      const newQuizzes = [...prevQuizzes];
+      newQuizzes[quizIndex].correctAnswer = value;
+      return newQuizzes;
+    });
+  };
+  const addOption = (quizIndex) => {
+    const newQuizzes = [...quizzes];
+    newQuizzes[quizIndex].options.push("");
+    setQuizzes(newQuizzes);
   };
 
-  const removeToDoItem = (inputId, itemId) => {
+  const removeOption = (quizIndex, optionIndex) => {
+    const newQuizzes = [...quizzes];
+    newQuizzes[quizIndex].options = newQuizzes[quizIndex].options.filter(
+      (_, i) => i !== optionIndex
+    );
+    setQuizzes(newQuizzes);
+  };
+  const addQuiz = () => {
+    const newQuiz = {
+      question: "",
+      options: ["", "", "", ""],
+      correctAnswer: "",
+    };
+    setQuizzes((prevQuizzes) => [...prevQuizzes, newQuiz]);
+
+    // Update inputs to include the new quiz
+    const quizInput = {
+      id: Date.now(),
+      type: "Quiz",
+      value: newQuiz,
+    };
+    setInputs((prevInputs) => [...prevInputs, quizInput]);
+    onContentChange([...quizzes, quizInput]);
+  };
+
+  const removeQuiz = (quizIndex) => {
+    setQuizzes((prevQuizzes) => prevQuizzes.filter((_, i) => i !== quizIndex));
     setInputs((prevInputs) =>
-      prevInputs.map((input) =>
-        input.id === inputId
-          ? {
-              ...input,
-              value: input.value.filter((item) => item.id !== itemId),
-            }
-          : input
+      prevInputs.filter(
+        (input) => !(input.type === "Quiz" && input.value.id === quizIndex)
       )
     );
+    onContentChange(quizzes);
   };
+  const handleQuizTextChange = (quizIndex, value) => {
+    setQuizzes((prevQuizzes) => {
+      const newQuizzes = [...prevQuizzes];
+      newQuizzes[quizIndex].question = value;
+      return newQuizzes;
+    });
+  };
+
   const renderInputField = (input) => {
     switch (input.type) {
+      case "Quiz":
+        return (
+          <div className="create-quiz">
+            <div className="card-header">
+              <h4 className="card-title">Create Quiz</h4>
+            </div>
+            <div className="m-5">
+              {quizzes.map((quiz, quizIndex) => (
+                <div key={quizIndex} className="quiz-section">
+                  <h3
+                    style={{
+                      textDecoration: "underline",
+                      fontSize: "1.5rem",
+                    }}
+                  >
+                    Quiz {quizIndex + 1}
+                  </h3>
+                  <div>
+                    <input
+                      type="text"
+                      value={quiz.question}
+                      onChange={(e) => {
+                        handleQuizTextChange(quizIndex, e.target.value);
+                      }}
+                      placeholder="Question Text"
+                      style={{
+                        fontSize: "1.2rem",
+                        marginBottom: "1rem",
+                        lineHeight: "1.5",
+                        textAlign: "center",
+                        backgroundColor: "none",
+                        border: "none",
+                        borderRadius: "100%",
+                      }}
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    {quiz.options.map((option, optionIndex) =>
+                      optionIndex % 2 === 0 ? ( // Check if the option index is even
+                        <div key={optionIndex} className="option-container">
+                          <div className="option">
+                            <input
+                              type="text"
+                              value={quiz.options[optionIndex]}
+                              onChange={(e) =>
+                                handleOptionChange(
+                                  quizIndex,
+                                  optionIndex,
+                                  e.target.value
+                                )
+                              }
+                              className="option-item"
+                              placeholder={`Option ${optionIndex + 1}`}
+                              required
+                            />
+                            <button
+                              type="button"
+                              onClick={() =>
+                                removeOption(quizIndex, optionIndex)
+                              }
+                              className="icon-button remove-option"
+                              style={{
+                                border: "none",
+                                backgroundColor: "transparent",
+                                marginBottom: "0.7rem",
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faMinus} />
+                            </button>
+                          </div>
+
+                          {quiz.options[optionIndex + 1] !== undefined && ( // Check if next option exists
+                            <div className="option">
+                              <input
+                                type="text"
+                                value={quiz.options[optionIndex + 1]}
+                                onChange={(e) =>
+                                  handleOptionChange(
+                                    quizIndex,
+                                    optionIndex + 1,
+                                    e.target.value
+                                  )
+                                }
+                                placeholder={`Option ${optionIndex + 2}`}
+                                className="option-item"
+                                required
+                              />
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  removeOption(quizIndex, optionIndex + 1)
+                                }
+                                className="icon-button remove-option"
+                                style={{
+                                  border: "none",
+                                  backgroundColor: "transparent",
+                                  marginBottom: "0.7rem",
+                                }}
+                              >
+                                <FontAwesomeIcon icon={faMinus} />
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      ) : null
+                    )}
+
+                    <button
+                      type="button"
+                      onClick={() => addOption(quizIndex)}
+                      className="icon-button add-option"
+                      style={{ backgroundColor: "#42940cdd" }}
+                    >
+                      <FontAwesomeIcon icon={faPlus} />
+                      <span>Add Option</span>
+                    </button>
+                  </div>
+
+                  <div>
+                    <label>Correct Answer:</label>
+                    <input
+                      type="text"
+                      value={quiz.correctAnswer}
+                      onChange={(e) => {
+                        handleCorrectAnswerChange(quizIndex, e.target.value);
+                      }}
+                      required
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeQuiz(quizIndex)}
+                    className="remove-quiz-button"
+                    style={{
+                      backgroundColor: "#c80202dd",
+                      color: "white",
+                      border: "none",
+                      padding: "0.5rem",
+                      fontSize: "15px",
+                      width: "50%",
+                      float: "right",
+                    }}
+                  >
+                    Remove Quiz
+                  </button>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                onClick={addQuiz}
+                className="add-quiz-button"
+                style={{
+                  backgroundColor: "#42940cdd",
+                  color: "white",
+                  border: "none",
+                  padding: "0.5rem",
+                  fontSize: "15px",
+                  width: "50%",
+                  marginTop: "-2.41rem",
+                }}
+              >
+                Add Quiz
+              </button>
+            </div>
+          </div>
+        );
       case "Text":
         return (
           <textarea
@@ -279,9 +490,9 @@ function Contenu({ id, onContentChange }) {
             </button>
           </div>
         );
-      case "Heading 1":
-      case "Heading 2":
-      case "Heading 3":
+      case "Heading1":
+      case "Heading2":
+      case "Heading3":
         return (
           <input
             type="text"
@@ -312,7 +523,7 @@ function Contenu({ id, onContentChange }) {
             <input
               type="file"
               accept="image/*"
-              onChange={(e) => handleFileChange(e, "ChapterContent")}
+              onChange={(e) => handleFileChange(e, input.id)}
               style={{ width: "100%", padding: "8px" }}
             />
             {input.value && (
@@ -330,7 +541,7 @@ function Contenu({ id, onContentChange }) {
             <input
               type="file"
               accept="video/*"
-              onChange={(e) => handleFileChangeA(e, "ChapterContent")}
+              onChange={(e) => handleFileChangeA(e, input.id)}
               style={{ width: "100%", padding: "8px" }}
             />
           </div>

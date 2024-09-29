@@ -48,9 +48,7 @@ const About = () => {
                   </div>
                   <div className="media-body">
                     <span className="media-label">Call Anytime 24/7</span>
-                    <p className="media-info">
-                      <a style={{ fontSize: "2rem" }}>(+216) 58628518</a>
-                    </p>
+                    <p className="media-info">(+216) 58628518</p>
                   </div>
                 </div>
                 <a className="vs-btn style3 mt-2">

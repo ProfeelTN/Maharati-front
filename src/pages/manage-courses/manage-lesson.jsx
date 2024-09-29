@@ -81,6 +81,7 @@ function AddLesson() {
     contentData.forEach((content, index) => {
       formDataToSend.append(`ChapterContent`, JSON.stringify(content)); // Append dynamic content
     });
+    console.log(contentData)
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_HOST}/courses/${id}/chapters`,
