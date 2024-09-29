@@ -267,8 +267,7 @@ const Signup = () => {
       const emailUsed = await axios.get(
         import.meta.env.VITE_HOST + `/users/email/${emailState.value.trim()}`
       );
-
-      if (emailUsed.data.Email) {
+      if (emailUsed.data) {
         setEmailUsed(true);
         throw new Error("Email Used");
       }
@@ -276,7 +275,7 @@ const Signup = () => {
       const phoneUsed = await axios.get(
         import.meta.env.VITE_HOST + `/users/phone/${phoneState.value.trim()}`
       );
-      if (phoneUsed.data.PhoneNumber) {
+      if (phoneUsed.data) {
         setPhoneUsed(true);
         throw new Error("Phone Used");
       }
@@ -364,7 +363,7 @@ const Signup = () => {
                                     className="input-group-text"
                                     id="basic-addon"
                                   >
-                                    <i class="ri-user-3-line"></i>
+                                    <i className="ri-user-3-line"></i>
                                   </span>
                                   <input
                                     type="text"
@@ -408,7 +407,7 @@ const Signup = () => {
                                     className="input-group-text"
                                     id="basic-addon1"
                                   >
-                                    <i class="ri-user-3-line"></i>
+                                    <i className="ri-user-3-line"></i>
                                   </span>
                                   <input
                                     type="text"
@@ -455,7 +454,7 @@ const Signup = () => {
                                     className="input-group-text"
                                     id="basic-addon"
                                   >
-                                    <i class="ri-mail-line"></i>
+                                    <i className="ri-mail-line"></i>
                                   </span>
                                   <input
                                     type="email"
@@ -689,12 +688,12 @@ const Signup = () => {
                               </div>
                             </div>
 
-                            <div class="">
-                              <p class="mb-0 fs-sm text-muted fst-italic">
+                            <div className="">
+                              <p className="mb-0 fs-sm text-muted fst-italic">
                                 By registering you agree to the Vixon{" "}
                                 <a
                                   routerLink="/pages/term-conditions"
-                                  class="text-primary text-decoration-underline fst-normal fw-medium"
+                                  className="text-primary text-decoration-underline fst-normal fw-medium"
                                 >
                                   Terms of Use
                                 </a>

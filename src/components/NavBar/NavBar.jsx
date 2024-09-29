@@ -48,7 +48,7 @@ const Navbar = () => {
           </button>
           <div className="mobile-logo">
             <a href="">
-              <img src="assets/img/logo.svg" alt="Maharati" />
+              <img src={logo} alt="Maharati" />
             </a>
           </div>
           <div className="vs-mobile-menu">

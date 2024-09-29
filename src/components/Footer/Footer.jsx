@@ -130,9 +130,8 @@ const Footer = () => {
           <div className="row justify-content-between align-items-center">
             <div className="text-center col-lg-auto">
               <p className="copyright-text">
-                Copyright <FontAwesomeIcon icon={faCopyright} /> 2023{" "}
-                <a href="index.html">Educino</a>. All Rights Reserved By{" "}
-                <a href="https://themeforest.net/user/vecuro_themes">Vecuro</a>
+                Copyright <FontAwesomeIcon icon={faCopyright} /> 2024{" "}
+                <a href="">Maharati</a>. All Rights Reserved By Profeel
               </p>
             </div>
             <div className="col-auto d-none d-lg-block">
