@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classnames from "classnames";
 
 import {
@@ -6,7 +6,6 @@ import {
   CardBody,
   Col,
   Row,
-  Container,
   Nav,
   NavItem,
   NavLink,
@@ -22,10 +21,21 @@ const Chapters = ({ chapters, setSelectedChapter }) => {
       setcustomActiveTab(tab);
     }
   };
+  useEffect(() => {
+    if (chapters && chapters.length > 0) {
+      const timer = setTimeout(() => {
+        setSelectedChapter(
+          JSON.parse(localStorage.getItem("selected-chapter")) || chapters[0]
+        );
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [chapters]);
+
   return (
     <div>
       <div
-        className="page-content"
+        className="content"
         style={{ marginBottom: "2rem", marginTop: "1rem" }}
       >
         <>
@@ -43,7 +53,7 @@ const Chapters = ({ chapters, setSelectedChapter }) => {
                         toggleCustom("Chapters");
                       }}
                     >
-                      <i className="mdi mdi-inbox me-2 align-middle font-size-18">
+                      <i className="mdi mdi-book me-2 align-middle font-size-18">
                         {" "}
                       </i>
                       <span className="d-none d-md-inline-block">
@@ -62,7 +72,7 @@ const Chapters = ({ chapters, setSelectedChapter }) => {
                         toggleCustom("Resources");
                       }}
                     >
-                      <i className="mdi mdi-alpha-x-circle-outline me-2 align-middle font-size-18"></i>{" "}
+                      <i className="mdi mdi-file-multiple me-2 align-middle font-size-18"></i>{" "}
                       <span className="d-none d-md-inline-block">
                         Resources
                       </span>
@@ -84,8 +94,8 @@ const Chapters = ({ chapters, setSelectedChapter }) => {
                               role="tabpanel"
                             >
                               <ul
-                                className="message-list mb-0"
-                                style={{ minHeight: "75vh" }}
+                                className="chapter-list mb-0"
+                                style={{ maxHeight: "75vh", overflow: "auto" }}
                               >
                                 {Object.keys(chapters).length !== 0 &&
                                   customActiveTab === "Chapters" &&
@@ -95,10 +105,15 @@ const Chapters = ({ chapters, setSelectedChapter }) => {
                                       className="unread chapter-item"
                                       onClick={() => {
                                         setSelectedChapter(x);
+                                        localStorage.setItem(
+                                          "selected-chapter",
+                                          JSON.stringify(x)
+                                        );
                                       }}
+                                      style={{ cursor: "pointer" }}
                                     >
                                       <span className="col-mail col-mail-1">
-                                        <a to="#" className="title">
+                                        <a to="#" className="chapter-title">
                                           {x.ChapterTitle}
                                         </a>
                                       </span>
@@ -107,34 +122,11 @@ const Chapters = ({ chapters, setSelectedChapter }) => {
                                         <div
                                           className="scroll-progress-bar"
                                           style={{
-                                            width: `${x.scrollProgress}%`,
+                                            width: `${x.scrollProgress || 0}%`,
+                                            backgroundColor: "#0bb197",
                                           }}
                                         ></div>
                                       </div>
-
-                                      {/* <div className="circular-progress">
-                                        <svg
-                                          viewBox="0 0 36 36"
-                                          className="circular-chart"
-                                        >
-                                          <path
-                                            className="circle-bg"
-                                            d="M18 2.0845
-              a 15.9155 15.9155 0 0 1 0 31.831
-              a 15.9155 15.9155 0 0 1 0 -31.831"
-                                          />
-                                          <path
-                                            className="circle"
-                                            strokeDasharray={`${x.scrollProgress}, 100`}
-                                            d="M18 2.0845
-              a 15.9155 15.9155 0 0 1 0 31.831
-              a 15.9155 15.9155 0 0 1 0 -31.831"
-                                          />
-                                        </svg>
-                                        <span className="circular-progress-text">
-                                          {Math.round(x.scrollProgress)}%
-                                        </span>
-                                      </div> */}
                                     </li>
                                   ))}
                               </ul>

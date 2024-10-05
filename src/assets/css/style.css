@@ -5381,3 +5381,18 @@ a.text-theme:hover,
     display: none;
   }
 }
+.chapter-list {
+  display: block;
+  padding-left: 0;
+}
+
+.chapter-list li {
+  position: relative;
+  display: block;
+  cursor: default;
+  transition-duration: 0.3s;
+}
+.chapter-list a {
+  margin: -0.5rem;
+  color: var(--body-color);
+}

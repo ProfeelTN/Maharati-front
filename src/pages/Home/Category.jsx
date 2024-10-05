@@ -36,11 +36,7 @@ const Category = () => {
           <div className="col-6 col-lg-4 col-xl-3">
             <div className="category-style1">
               <div className="category-img">
-                <img
-                  className="w-100"
-                  src={category4}
-                  alt="category"
-                />
+                <img className="w-100" src={category4} alt="category" />
                 <div className="icon">
                   <FontAwesomeIcon icon={faLayerGroup} />
                 </div>

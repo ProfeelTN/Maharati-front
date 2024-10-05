@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Header from "./Header";
@@ -11,6 +11,25 @@ const CourseViewer = () => {
   const { auth } = useAuth();
   const [course, setCourse] = useState({});
   const [selectedChapter, setSelectedChapter] = useState({});
+  const contentRef = useRef(null);
+
+  const handleScroll = () => {
+    const div = contentRef.current;
+    if (div) {
+      const scrollTop = div.scrollTop;
+      const scrollHeight = div.scrollHeight - div.clientHeight;
+      const scrolled = (scrollTop / scrollHeight) * 100;
+
+      setCourse((prevCourse) => ({
+        ...prevCourse,
+        Chapters: prevCourse.Chapters.map((chapter) =>
+          chapter._id === selectedChapter._id
+            ? { ...chapter, scrollProgress: scrolled || 0 }
+            : chapter
+        ),
+      }));
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +43,6 @@ const CourseViewer = () => {
               },
             }
           );
-
           setCourse(response.data);
         } catch (error) {
           console.error("Error fetching courses:", error);
@@ -33,11 +51,20 @@ const CourseViewer = () => {
     };
 
     fetchData();
+    const div = contentRef.current;
+    if (div) {
+      div.addEventListener("scroll", handleScroll);
+      return () => div.removeEventListener("scroll", handleScroll);
+    }
   }, [id]);
 
   return (
     <div
-      style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+      }}
     >
       <Header title={course.CourseName} />
       <Container fluid style={{ flex: 1, display: "flex" }}>
@@ -61,10 +88,16 @@ const CourseViewer = () => {
               opacity: "0.8",
               padding: "20px",
               margin: "1rem",
-              height: "100rvh",
+              height: "85vh",
+              maxHeight: "87vh",
+              overflowY: "auto", // Enable scrolling
             }}
           >
-            <div>
+            <div
+              ref={contentRef}
+              onScroll={handleScroll}
+              style={{ height: "100%", overflowY: "auto" }}
+            >
               {selectedChapter?.ChapterContent &&
                 selectedChapter.ChapterContent.map((content, index) => (
                   <div
@@ -91,7 +124,7 @@ const CourseViewer = () => {
                             <img
                               src={content.value}
                               alt="Chapter content"
-                              style={{ maxWidth: "100%", height: "auto" }} // Ensure image responsiveness
+                              style={{ maxWidth: "100%", height: "auto" }}
                             />
                           );
                         case "Video":

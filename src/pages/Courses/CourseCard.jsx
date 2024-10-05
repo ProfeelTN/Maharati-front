@@ -5,8 +5,8 @@ const CourseCard = ({ course }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleClose = () => setShowModal(false);
-  console.log(course.CourseImage.ImageLink)
-  console.log(course.CourseName)
+  console.log(course.CourseImage.ImageLink);
+  console.log(course.CourseName);
   return (
     <div className="">
       <div className="course-style1 has-border">
@@ -15,10 +15,9 @@ const CourseCard = ({ course }) => {
             <img
               className="w-100 "
               style={{
-                width: "300px" ,
+                width: "300px",
                 height: "200px",
-                objectFit:
-                  "cover" ,
+                objectFit: "cover",
               }}
               src={course.CourseImage.ImageLink}
               alt="Course Img"
@@ -28,10 +27,8 @@ const CourseCard = ({ course }) => {
             <a href="course.html">{course.category}</a>
           </div>
           <a
-            href="https://www.youtube.com/watch?v=_sI_Ps7JSEk"
+            href={`course/${course._id}`}
             className="vs-btn style4 popup-video"
-            target="_blank"
-            rel="noopener noreferrer"
           >
             <i className="fas fa-play"></i>Preview Course
           </a>
