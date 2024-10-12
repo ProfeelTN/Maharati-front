@@ -40,7 +40,6 @@ const Index = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const refresh = useRefreshToken();
-  const [currentStyle, setCurrentStyle] = useState();
 
   useEffect(() => {
     const currentRoute = routes.find((route) =>
@@ -71,34 +70,6 @@ const Index = () => {
         dispatch(changeLayout(currentRoute.layout));
         setLayoutType(currentRoute.layout);
       }
-
-      // const newStyleSheet =
-      //   currentRoute.layout === "client" ? "style.css" : "theme.scss";
-
-      // if (newStyleSheet !== currentStyle) {
-      //   // Remove previous stylesheet if it exists
-      //   const previousStyleSheet =
-      //     document.getElementById("dynamic-stylesheet");
-      //   if (previousStyleSheet) {
-      //     previousStyleSheet.remove();
-      //     console.log("Previous stylesheet removed:", previousStyleSheet.href);
-      //   }
-
-      //   // Add the new stylesheet
-      //   const link = document.createElement("link");
-      //   link.rel = "stylesheet";
-      //   link.id = "dynamic-stylesheet";
-      //   link.href = `${import.meta.env.VITE_CLIENT_HOST || ""}/src/assets/${
-      //     newStyleSheet === "style.css" ? "css" : "scss"
-      //   }/${newStyleSheet}`;
-      //   document.head.appendChild(link);
-      //   console.log(`New stylesheet applied: ${newStyleSheet}`);
-
-      //   // Store the current style for future use
-      //   setCurrentStyle(newStyleSheet);
-      // } else {
-      //   console.log("Stylesheet is already applied, no changes made.");
-      // }
     }
   }, [location.pathname, dispatch]);
 

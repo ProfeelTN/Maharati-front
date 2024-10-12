@@ -28,7 +28,7 @@ const Dashboard = lazy(() => import("../pages/Dashboard/index.jsx"));
 // Courses
 const ManageCourses = lazy(() => import("../pages/manage-courses/CoursesDash"));
 //Test
-const TestFinal = lazy(() => import ("../pages/manage-courses/TestFinal.jsx"));
+const TestFinal = lazy(() => import("../pages/manage-courses/TestFinal.jsx"));
 
 // Calendar
 const Calendar = lazy(() => import("../pages/Calendar/index.jsx"));
@@ -162,10 +162,10 @@ const routes = [
     ),
     layout: layoutTypes.CLIENT,
   },
-  { path: "/google/oauth", element: <HandleExternalOauth /> },
-  { path: "/facebook/oauth", element: <HandleExternalOauth /> },
-  { path: "/linkedin/oauth", element: <HandleExternalOauth /> },
-  { path: "/github/oauth", element: <HandleExternalOauth /> },
+  { path: "/google/oauth", element: <HandleExternalOauth />, type: "public" },
+  { path: "/facebook/oauth", element: <HandleExternalOauth />, type: "public" },
+  { path: "/linkedin/oauth", element: <HandleExternalOauth />, type: "public" },
+  { path: "/github/oauth", element: <HandleExternalOauth />, type: "public" },
   {
     path: "/forgot-password",
     element: (
