@@ -1,8 +1,38 @@
-# React + Vite
+# Maharati
+Maharati is a web solution designed to help users develop their skills by suggesting personalized development plans using AI. This project is developed using the MERN stack (MongoDB, Express.js, React, Node.js) and aims to provide an intuitive platform for skill assessment, training management, and performance tracking.
+## Technologies and Tools
+### Frontend
+- React 18: A JavaScript library for building user interfaces.
+- Vite 5: A build tool that aims to provide a faster and leaner development experience for modern web projects.
+## Deployment Link
+```bash
+https://maharati-front.onrender.com
+```
+## Project Setup
+1. **Clone the repository:**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+   ```bash
+   git clone https://github.com/ProfeelTN/maharati-front.git
+   cd maharati-front
+   ```
 
-Currently, two official plugins are available:
+2. **Install dependencies:**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server :**
+
+   ```bash
+   npm run dev
+   ```
+
+4. **Build for production:**
+
+   ```bash
+   npm run build
+   ```
+## Contributing
+
+Please follow the established coding standards and commit message guidelines.
