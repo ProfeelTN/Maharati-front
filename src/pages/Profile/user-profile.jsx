@@ -9,8 +9,8 @@ import { connect } from "react-redux";
 import withRouter from "../../components/Common/withRouter";
 import useAuth from "../../hooks/useAuth";
 import { editProfile as oneditProfile } from "../../store/actions";
-import girlAvatar from "../../assets/images/users/avatar-10.jpg";
-import guyAvatar from "../../assets/images/users/avatar-3.jpg";
+import girlAvatar from "../../assets/images/users/female.jpg";
+import guyAvatar from "../../assets/images/users/male.jpg";
 import { useSnackbar } from "notistack";
 const emailReducer = (prevState, action) => {
   if (action.type === "Email changed") {
@@ -155,7 +155,9 @@ const UserProfile = (props) => {
     auth?.user?.LearningLanguage || ""
   );
   const [dateofBirth, setDateofBirth] = useState(
-    auth?.user?.DateofBirth.split("T")[0] || null
+    auth?.user?.DateofBirth !== undefined
+      ? auth?.user?.DateofBirth.split("T")[0]
+      : null
   );
   const [address, setAddress] = useState({
     street: auth?.user?.Address?.street || "",
@@ -218,13 +220,13 @@ const UserProfile = (props) => {
           lastnameIsValid
         // confirmPasswordIsValid
       );
-    }, 1000);
+    }, 10);
     return () => {
       clearTimeout(timer);
     };
   }, [
     emailIsValid,
-    passwordIsValid,
+    phoneIsValid,
     firstnameIsValid,
     lastnameIsValid,
     // phoneIsValid,
@@ -321,27 +323,51 @@ const UserProfile = (props) => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
   const handleSubmit = async (e) => {
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
     e.preventDefault();
     try {
-      if (auth?.user?.Email !== emailState.value) {
-        const emailUsed = await axios.get(
-          import.meta.env.VITE_HOST + `/users/email/${emailState.value.trim()}`
-        );
-        if (emailUsed.data) {
-          setEmailUsed(true);
-          throw new Error("Email Used");
+      let emailUsed = false;
+      let phoneUsed = false;
+
+      const emailCheckPromise = (async () => {
+        if (auth?.user?.Email !== emailState.value) {
+          const emailResponse = await axios.get(
+            import.meta.env.VITE_HOST +
+              `/users/email/${emailState.value.trim()}`
+          );
+          if (emailResponse.data) {
+            emailUsed = true;
+          }
         }
+      })();
+
+      const phoneCheckPromise = (async () => {
+        if (auth?.user?.PhoneNumber !== phoneState.value) {
+          const phoneResponse = await axios.get(
+            import.meta.env.VITE_HOST +
+              `/users/phone/${phoneState.value.trim()}`
+          );
+          if (phoneResponse.data) {
+            phoneUsed = true;
+          }
+        }
+      })();
+
+      await Promise.all([emailCheckPromise, phoneCheckPromise]);
+      await delay(500);
+
+      if (emailUsed) {
+        setEmailUsed(true);
+      }
+      if (phoneUsed) {
+        setPhoneUsed(true);
+      }
+
+      if (emailUsed || phoneUsed) {
+        throw new Error("Email or Phone number already used");
       }
       setEmailUsed(false);
-      if (auth?.user?.PhoneNumber !== phoneState.value) {
-        const phoneUsed = await axios.get(
-          import.meta.env.VITE_HOST + `/users/phone/${phoneState.value.trim()}`
-        );
-        if (phoneUsed.data) {
-          setPhoneUsed(true);
-          throw new Error("Phone Used");
-        }
-      }
       setPhoneUsed(false);
       const updatedData = {
         _id: auth?.user?._id,
@@ -416,7 +442,7 @@ const UserProfile = (props) => {
                               : undefined,
                         }}
                       />
-                      {firstnameState.value && (
+                      {/* {firstnameState.value && (
                         <i
                           className="clear-button fa-solid fa-x"
                           onClick={() =>
@@ -428,7 +454,7 @@ const UserProfile = (props) => {
                           }
                           style={{ marginRight: "1rem" }}
                         />
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </div>
@@ -459,7 +485,7 @@ const UserProfile = (props) => {
                               : undefined,
                         }}
                       />
-                      {lastnameState.value && (
+                      {/* {lastnameState.value && (
                         <i
                           className="clear-button fa-solid fa-x"
                           onClick={() =>
@@ -471,7 +497,7 @@ const UserProfile = (props) => {
                           }
                           style={{ marginRight: "1rem" }}
                         />
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </div>
@@ -503,7 +529,7 @@ const UserProfile = (props) => {
                               : undefined,
                         }}
                       />
-                      {phoneState.value && (
+                      {/* {phoneState.value && (
                         <i
                           className="clear-button fa-solid fa-x"
                           onClick={() =>
@@ -515,19 +541,16 @@ const UserProfile = (props) => {
                           }
                           style={{ marginRight: "1rem" }}
                         />
-                      )}
+                      )} */}
                     </div>
                     {PhoneUsed && (
-                      <div className="acceptance">
-                        <ul>
-                          <li
-                            style={{
-                              color: PhoneUsed === true ? "red" : undefined,
-                            }}
-                          >
-                            {props.t("Phone Used")}
-                          </li>
-                        </ul>
+                      <div
+                        className="acceptance"
+                        style={{
+                          color: PhoneUsed === true ? "red" : undefined,
+                        }}
+                      >
+                        {props.t("Phone Used")}
                       </div>
                     )}
                   </div>
@@ -701,6 +724,7 @@ const UserProfile = (props) => {
                         autoComplete="off"
                         name="email"
                         id="email"
+                        disabled={true}
                         className="form-control"
                         value={emailState.value}
                         onChange={emailChangeHandler}
@@ -715,7 +739,7 @@ const UserProfile = (props) => {
                               : undefined,
                         }}
                       />
-                      {emailState.value && (
+                      {/* {emailState.value && (
                         <i
                           className="clear-button fa-solid fa-x"
                           onClick={() =>
@@ -723,19 +747,16 @@ const UserProfile = (props) => {
                           }
                           style={{ marginRight: "1rem" }}
                         />
-                      )}
+                      )} */}
                     </div>
                     {EmailUsed && (
-                      <div className="acceptance">
-                        <ul>
-                          <li
-                            style={{
-                              color: EmailUsed === true ? "red" : undefined,
-                            }}
-                          >
-                            {props.t("Email Used")}
-                          </li>
-                        </ul>
+                      <div
+                        className="acceptance"
+                        style={{
+                          color: EmailUsed === true ? "red" : undefined,
+                        }}
+                      >
+                        {props.t("Email Used")}
                       </div>
                     )}
                   </div>

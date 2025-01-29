@@ -81,7 +81,11 @@ function Contenu({ id, onContentChange }) {
           input.id === id ? { ...input, value: reader.result } : input
         )
       );
-      onContentChange([{ id, type: "Photo", value: reader.result }]);
+      onContentChange((prevContent) =>
+        prevContent.map((input) =>
+          input.id === id ? { ...input, value: reader.result } : input
+        )
+      );
       // Update the chapter content when the file is loaded
       // Ensures ChapterContent is an array
     };
@@ -582,7 +586,7 @@ function Contenu({ id, onContentChange }) {
           <div key={input.id} style={{ marginBottom: "15px" }}>
             {renderInputField(input)}
             <div style={{ marginTop: "10px" }}>
-              <button
+              {/* <button
                 type="button"
                 onClick={() => addInputBelow(input.id)}
                 style={{
@@ -595,7 +599,7 @@ function Contenu({ id, onContentChange }) {
                 }}
               >
                 Add Below
-              </button>
+              </button> */}
               <button
                 onClick={() => toggleMenu(input.id)}
                 style={{

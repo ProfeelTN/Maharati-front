@@ -16,8 +16,8 @@ import useLogout from "../../../hooks/useLogout";
 import withRouter from "../withRouter";
 
 // users
-import girlAvatar from "../../../assets/images/users/avatar-10.jpg";
-import guyAvatar from "../../../assets/images/users/avatar-3.jpg";
+import girlAvatar from "../../../assets/images/users/female.jpg";
+import guyAvatar from "../../../assets/images/users/male.jpg";
 
 import useAuth from "../../../hooks/useAuth";
 const ProfileMenu = (props) => {

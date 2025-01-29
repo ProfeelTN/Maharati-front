@@ -785,9 +785,9 @@ const Signup = () => {
                         </div>
                         <div className="text-center">
                           <p className="text-white opacity-75 mb-0 mt-3">
-                            &copy; {year} Vixon. Crafted with
-                            <i className="ti ti-heart-filled text-danger"></i>
-                            by Themesbrand
+                            &copy; {year} Maharati. Crafted with{" "}
+                            <i className="mdi mdi-heart text-danger"></i> by
+                            Profeel interns
                           </p>
                         </div>
                       </div>

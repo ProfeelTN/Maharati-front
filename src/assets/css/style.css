@@ -3406,13 +3406,13 @@ a.text-theme:hover,
 
 .breadcumb-title {
   font-size: 70px;
-  color: var(--white-color);
+  color: var(--yellow-color);
   margin: -0.21em 0 -0.4em 0;
 }
 
 .breadcumb-text {
   font-size: 20px;
-  color: var(--white-color);
+  color: var(--black-color);
   margin: 32px 0 -0.25em 0;
 }
 
@@ -5286,7 +5286,6 @@ a.text-theme:hover,
 
 .title {
   font-size: 18px;
-  margin-top: 1rem;
   color: #333;
   flex-grow: 1;
   text-align: left;

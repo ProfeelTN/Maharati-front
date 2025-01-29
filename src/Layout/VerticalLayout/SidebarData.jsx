@@ -32,6 +32,7 @@ const SidebarData = [
     icon: "mdi mdi-account",
     isHasArrow: true,
     url: "/users",
+    type: "Admin",
   },
   {
     label: "Course Manager",
@@ -55,6 +56,7 @@ const SidebarData = [
     icon: "mdi mdi-clipboard-list-outline",
     isHasArrow: true,
     url: "/audits",
+    type: "Admin",
   },
   // {
   //   label: "Utility",

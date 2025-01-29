@@ -16,10 +16,10 @@ const Courses = () => {
       >
         <div className="container z-index-common">
           <div className="breadcumb-content">
-            <h1 className="breadcumb-title">Our Courses</h1>
+            {/* <h1 className="breadcumb-title">Our Courses</h1>
             <p className="breadcumb-text">
               Search over 200 individual encyclopedias and reference books.
-            </p>
+            </p> */}
             <div className="breadcumb-menu-wrap">
               <ul className="breadcumb-menu">
                 <li>

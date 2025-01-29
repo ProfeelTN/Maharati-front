@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const CourseCard = ({ course }) => {
   const [showModal, setShowModal] = useState(false);
-
   const handleClose = () => setShowModal(false);
-  console.log(course.CourseImage.ImageLink);
-  console.log(course.CourseName);
+
+  console.log(course);
   return (
     <div className="">
       <div className="course-style1 has-border">
@@ -23,9 +23,9 @@ const CourseCard = ({ course }) => {
               alt="Course Img"
             />
           </Link>
-          <div className="course-category">
+          {/* <div className="course-category">
             <a href="course.html">{course.category}</a>
-          </div>
+          </div> */}
           <a
             href={`course/${course._id}`}
             className="vs-btn style4 popup-video"
@@ -36,13 +36,14 @@ const CourseCard = ({ course }) => {
         <div className="course-content">
           <div className="course-top">
             <div className="course-review">
-              <i className="fas fa-star"></i>
-              <i className="fas fa-star"></i>
-              <i className="fas fa-star"></i>
-              <i className="fas fa-star"></i>
-              <i className="fas fa-star"></i>(5.0)
+              <i className="fa-regular fa-star"></i>
+              <i className="fa-regular fa-star"></i>
+              <i className="fa-regular fa-star"></i>
+              <i className="fa-regular fa-star"></i>
+              <i className="fa-regular fa-star"></i>
+              (0.0)
             </div>
-            <span className="course-price">{course.CoursePrix} dt</span>
+            <span className="course-price">{course.CoursePrice} dt</span>
           </div>
           <h3 className="course-name">
             <Link to="/CourseDetails">
@@ -51,22 +52,22 @@ const CourseCard = ({ course }) => {
           </h3>
           <div className="course-teacher">
             <a className="text-inherit" href="team-details.html">
-              By {course.teacher}
+              By {course.createdBy.FirstName + " " + course.createdBy.LastName}
             </a>
           </div>
         </div>
         <div className="course-meta">
           <span>
             <i className="fa fa-users"></i>
-            {course.students}
+            {course?.students || 0}
           </span>
           <span>
             <i className="fa fa-clock"></i>
-            {course.CourseDuration}
+            {course?.CourseDuration || "undefined duration"}
           </span>
           <span>
             <i className="fa fa-calendar-alt"></i>
-            {course.createdAt}
+            {course?.CourseStart}
           </span>
         </div>
       </div>

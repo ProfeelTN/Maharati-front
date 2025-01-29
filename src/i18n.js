@@ -21,7 +21,7 @@ const resources = {
 
 const language = localStorage.getItem("I18N_LANGUAGE");
 if (!language) {
-  localStorage.setItem("I18N_LANGUAGE", "fr");
+  localStorage.setItem("I18N_LANGUAGE", "en");
 }
 
 i18n
@@ -29,7 +29,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: localStorage.getItem("I18N_LANGUAGE") || "fr",
+    lng: localStorage.getItem("I18N_LANGUAGE") || "en",
     fallbackLng: "fr",
 
     keySeparator: false,

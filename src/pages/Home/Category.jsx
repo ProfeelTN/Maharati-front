@@ -33,7 +33,7 @@ const Category = () => {
           data-xs-slide-show="2"
           data-center-mode="true"
         >
-          <div className="col-6 col-lg-4 col-xl-3">
+          <div className="col-6 col-lg-4 col-xl-4">
             <div className="category-style1">
               <div className="category-img">
                 <img className="w-100" src={category4} alt="category" />
@@ -43,13 +43,13 @@ const Category = () => {
               </div>
               <div className="category-content">
                 <h2 className="category-title">
-                  <a href="course.html">Software Development</a>
+                  <a href="/courses">Software Development</a>
                 </h2>
                 <span className="subtitle">over 600 courses</span>
               </div>
             </div>
           </div>
-          <div className="col-6 col-lg-4 col-xl-3">
+          <div className="col-6 col-lg-4 col-xl-4">
             <div className="category-style1">
               <div className="category-img">
                 <img className="w-100" src={category2} alt="category" />
@@ -59,13 +59,13 @@ const Category = () => {
               </div>
               <div className="category-content">
                 <h2 className="category-title">
-                  <a href="course.html">Earth History</a>
+                  <a href="/courses">Earth History</a>
                 </h2>
                 <span className="subtitle">over 336 courses</span>
               </div>
             </div>
           </div>
-          <div className="col-6 col-lg-4 col-xl-3">
+          <div className="col-6 col-lg-4 col-xl-4">
             <div className="category-style1">
               <div className="category-img">
                 <img className="w-100" src={category1} alt="category" />
@@ -75,13 +75,13 @@ const Category = () => {
               </div>
               <div className="category-content">
                 <h2 className="category-title">
-                  <a href="course.html">Chemistry</a>
+                  <a href="/courses">Chemistry</a>
                 </h2>
                 <span className="subtitle">over 778 courses</span>
               </div>
             </div>
           </div>
-          <div className="col-6 col-lg-4 col-xl-3">
+          {/* <div className="col-6 col-lg-4 col-xl-3">
             <div className="category-style1">
               <div className="category-img">
                 <img
@@ -100,7 +100,7 @@ const Category = () => {
                 <span className="subtitle">over 450 courses</span>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

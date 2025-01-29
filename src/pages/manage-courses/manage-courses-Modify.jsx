@@ -315,6 +315,12 @@ const Modify = ({ onUpdate }) => {
                               >
                                 <i className="material-icons">edit</i>
                               </a>
+                              <a
+                                href="instructor-lesson-add.html"
+                                className="btn btn-white btn-sm"
+                              >
+                                <i className="material-icons">edit</i>
+                              </a>
                             </div>
                           </div>
                         </div>

@@ -7,6 +7,7 @@ import useAuth from "../../hooks/useAuth";
 import Contenu from "./Contenu";
 import { useParams } from "react-router-dom";
 import CreateQuiz from "./CreatQuiz";
+import { useSnackbar } from "notistack";
 
 function AddLesson() {
   const [formData, setFormData] = useState({});
@@ -15,6 +16,7 @@ function AddLesson() {
   const { auth } = useAuth();
   const { id } = useParams();
   const [contentData, setContentData] = useState([]); // To collect dynamic content from Contenu
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -81,7 +83,7 @@ function AddLesson() {
     contentData.forEach((content, index) => {
       formDataToSend.append(`ChapterContent`, JSON.stringify(content)); // Append dynamic content
     });
-    console.log(contentData)
+    console.log(contentData);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_HOST}/courses/${id}/chapters`,
@@ -93,7 +95,8 @@ function AddLesson() {
           },
         }
       );
-      console.log("Chapter added successfully", response.data);
+      console.log(formDataToSend);
+      enqueueSnackbar("Chapter Created");
     } catch (error) {
       console.error("Error adding chapter:", error);
     }
@@ -148,7 +151,7 @@ function AddLesson() {
         </div>
         <Contenu id={id} onContentChange={handleContentChange} />
       </div>
-    
+
       <div className="cards mt-4">
         <div className="card-header">
           <h4 className="card-title">Files</h4>

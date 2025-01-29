@@ -4,6 +4,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Form, Card, CardBody, Col, Row, Container } from "reactstrap";
 import { convertToRaw, EditorState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
+import { useSnackbar } from "notistack";
 
 const ReplyCompose = ({
   contact,
@@ -14,6 +15,7 @@ const ReplyCompose = ({
   setCompose,
 }) => {
   document.title = "Reply Compose";
+  const { enqueueSnackbar } = useSnackbar();
 
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [email, setEmail] = useState(contact?.Email || "");
@@ -39,6 +41,7 @@ const ReplyCompose = ({
     composeEmail(email, "Re: " + subject, htmlContent);
     setReply(false);
     setCompose(false);
+    enqueueSnackbar("Reply sent");
   };
 
   return (

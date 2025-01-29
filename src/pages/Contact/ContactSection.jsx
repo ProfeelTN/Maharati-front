@@ -79,7 +79,7 @@ const ContactSection = () => {
             </p>
             <p className="contact-info  mb-4 ">
               <i className="fas fa-map-marker-alt"></i>
-              1309 Beacon Street, Suite 300, Brookline, MA, 02446
+              St Commandant Bejaoui, Sousse, 4000{" "}
             </p>
             <p className="contact-info mb-4">
               <i className="fas fa-phone-alt"></i>
@@ -90,7 +90,7 @@ const ContactSection = () => {
             <p className="contact-info">
               <i className="fas fa-envelope"></i>
               <a className="text-inherit" href="mailto:hello@domainname.com">
-                hello@domainname.com
+                maharati@profeel.tn{" "}
               </a>
             </p>
             <div className="mega-hover rounded-20 mt-4 mt-lg-5 mb-4">
@@ -99,15 +99,13 @@ const ContactSection = () => {
             <p className="font-title text-title fs-md fw-medium pt-xl-2 mb-2">
               Membership enquiries:
               <a href="tel:+04432907612" className="text-decoration-underline">
-              (+216) 58628518
-
+                (+216) 58628518
               </a>
             </p>
             <p className="font-title text-title fs-md fw-medium mb-4">
               Principal Support:
               <a href="tel:+2256366989" className="text-decoration-underline">
-              (+216) 58628518
-
+                (+216) 58628518
               </a>
             </p>
           </div>

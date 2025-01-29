@@ -105,11 +105,20 @@ const CourseViewer = () => {
                     style={{
                       overflowY: "auto",
                       backgroundColor: "white",
-                      padding: "1rem",
+                      padding: `${
+                        content.type === "Heading1"
+                          ? "0.1rem  0.1rem 0.1rem 1.5rem"
+                          : content.type === "Heading2"
+                          ? "0.1rem  0.1rem 0.1rem 2rem"
+                          : content.type === "Heading3"
+                          ? "0.1rem  0.1rem 0.1rem 2.5rem"
+                          : "0.1rem  0.1rem 0.1rem 1rem"
+                      }`,
                       marginBottom: `${
-                        content.type === "Heading 1" ||
-                        content.type === "Heading 2" ||
-                        content.type === "Heading 3"
+                        content.type === "Heading1" ||
+                        content.type === "Heading2" ||
+                        content.type === "Heading3" ||
+                        content.type === "Text"
                           ? "0rem"
                           : "0.4rem"
                       }`,
@@ -124,7 +133,12 @@ const CourseViewer = () => {
                             <img
                               src={content.value}
                               alt="Chapter content"
-                              style={{ maxWidth: "100%", height: "auto" }}
+                              style={{
+                                maxWidth: "100%",
+                                height: "auto",
+                                display: "block",
+                                margin: "auto",
+                              }}
                             />
                           );
                         case "Video":
@@ -134,11 +148,11 @@ const CourseViewer = () => {
                               Your browser does not support the video tag.
                             </video>
                           );
-                        case "Heading 1":
+                        case "Heading1":
                           return <h1>{content.value}</h1>;
-                        case "Heading 2":
+                        case "Heading2":
                           return <h2>{content.value}</h2>;
-                        case "Heading 3":
+                        case "Heading3":
                           return <h3>{content.value}</h3>;
                         default:
                           return null;

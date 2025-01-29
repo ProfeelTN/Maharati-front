@@ -21,14 +21,23 @@ const Courses = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_HOST}/courses`,
-          {
+        var response = { data: "" };
+        if (auth?.user?.Role === "Admin") {
+          response = await axios.get(`${import.meta.env.VITE_HOST}/courses`, {
             headers: {
               Authorization: `Bearer ${auth?.accessToken}`,
             },
-          }
-        );
+          });
+        } else {
+          response = await axios.get(
+            `${import.meta.env.VITE_HOST}/courses/user/${auth.user._id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${auth?.accessToken}`,
+              },
+            }
+          );
+        }
         setCourses(response.data);
       } catch (error) {
         console.error("Error fetching courses:", error);
@@ -96,7 +105,7 @@ const Courses = () => {
                   Displaying {currentCourses.length} out of {courses.length}{" "}
                   courses
                 </small>
-                <div className="w-auto table d-flex align-items-center mb-0">
+                {/* <div className="w-auto table d-flex align-items-center mb-0">
                   <small className="text-muted text-uppercase mr-3 d-none d-sm-block">
                     Sort by
                   </small>
@@ -121,7 +130,7 @@ const Courses = () => {
                   >
                     Sales
                   </a>
-                </div>
+                </div> */}
               </div>
             </div>
 

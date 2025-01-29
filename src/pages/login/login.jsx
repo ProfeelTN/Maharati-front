@@ -183,6 +183,7 @@ const Login = () => {
       }
     } catch (error) {
       setincorrectCredentials(true);
+      // enqueueSnackbar("Incorrect User credentials");
       console.log(error);
     }
   };
@@ -230,6 +231,21 @@ const Login = () => {
                         <div className="p-2 mt-5">
                           <form onSubmit={submitHandler}>
                             <div className="mb-5">
+                              <div
+                                className="error"
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  padding: "1rem",
+                                }}
+                              >
+                                {incorrectCredentials && (
+                                  <div style={{ color: "red" }}>
+                                    Incorrect User credentials
+                                  </div>
+                                )}
+                              </div>
                               <div className="input-group">
                                 <span
                                   className="input-group-text"
@@ -259,7 +275,7 @@ const Login = () => {
                                 <span className="placeholder-title">
                                   Email/Phone number
                                 </span>
-                                {emailphoneState.value && (
+                                {/* {emailphoneState.value && (
                                   <i
                                     className="clear-button fa-solid fa-x"
                                     onClick={() =>
@@ -269,7 +285,7 @@ const Login = () => {
                                       )
                                     }
                                   />
-                                )}
+                                )} */}
                               </div>
                             </div>
                             <div className="mb-3 ">
@@ -419,9 +435,9 @@ const Login = () => {
                         </div>
                         <div className="text-center">
                           <p className="text-white opacity-75 mb-0 mt-3">
-                            &copy; {year} Vixon. Crafted with{" "}
-                            <i className="ti ti-heart-filled text-danger"></i>{" "}
-                            by Themesbrand
+                            &copy; {year} Maharati. Crafted with{" "}
+                            <i className="mdi mdi-heart text-danger"></i> by
+                            Profeel interns
                           </p>
                         </div>
                       </div>

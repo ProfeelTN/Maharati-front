@@ -14,21 +14,27 @@ const About = () => {
   const isAboutSectionVisible = useIntersectionObserver(AboutSectionRef, {
     threshold: 0.3,
   });
-  const isFeaturesVisible = useIntersectionObserver(FeaturesRef, { threshold: 0.3 });
+  const isFeaturesVisible = useIntersectionObserver(FeaturesRef, {
+    threshold: 0.3,
+  });
   const isTeamVisible = useIntersectionObserver(TeamRef, { threshold: 0.3 });
 
   return (
     <div>
       <div
         className="breadcumb-wrapper"
-        style={{ backgroundImage: `url(${breadcumbBg})` ,backgroundSize:' 100% 160%',backgroundRepeat: 'no-repeat',}}
+        style={{
+          backgroundImage: `url(${breadcumbBg})`,
+          backgroundSize: " 100% 160%",
+          backgroundRepeat: "no-repeat",
+        }}
       >
         <div className="container z-index-common">
           <div className="breadcumb-content">
-            <h1 className="breadcumb-title">About Us</h1>
+            {/* <h1 className="breadcumb-title">About Us</h1>
             <p className="breadcumb-text">
               Search over 200 individual encyclopedias and reference books.
-            </p>
+            </p> */}
             <div className="breadcumb-menu-wrap">
               <ul className="breadcumb-menu">
                 <li>
@@ -59,8 +65,7 @@ const About = () => {
       <div
         ref={TeamRef}
         className={`animate-on-scroll ${isTeamVisible ? "is-visible" : ""}`}
-      >
-      </div>
+      ></div>
     </div>
   );
 };

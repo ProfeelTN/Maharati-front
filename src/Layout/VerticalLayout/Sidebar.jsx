@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import sidebarData from "./SidebarData";
 //Simple bar
@@ -12,8 +12,10 @@ import { Link } from "react-router-dom";
 import { withTranslation } from "react-i18next";
 //import images
 import logo from "../../assets/img/LOGO.png";
+import useAuth from "../../hooks/useAuth";
 
 const Sidebar = (props) => {
+  const { auth } = useAuth();
   // useEffect(() => {
   //   // Dynamically import the SCSS file when the component mounts
   //   import("../../assets/scss/theme.scss")
@@ -147,60 +149,70 @@ const Sidebar = (props) => {
             <ul className="metismenu list-unstyled" id="side-menu-item">
               {(sidebarData || []).map((item, key) => (
                 <React.Fragment key={key}>
-                  {item.isMainMenu ? (
-                    <li className="menu-title">{props.t(item.label)}</li>
-                  ) : (
-                    <li key={key}>
-                      <Link
-                        to={item.url ? item.url : "/#"}
-                        className={
-                          item.issubMenubadge || item.isHasArrow
-                            ? " "
-                            : "has-arrow"
-                        }
-                      >
-                        <i
-                          className={item.icon}
-                          style={{ marginRight: "5px" }}
-                        ></i>
-                        {item.issubMenubadge && (
-                          <span
+                  {/* Check if item.type is defined and matches auth.role or if item.type is undefined */}
+                  {(!item.type || item.type === auth?.user?.Role) && (
+                    <>
+                      {item.isMainMenu ? (
+                        <li className="menu-title">{props.t(item.label)}</li>
+                      ) : (
+                        <li key={key}>
+                          <Link
+                            to={item.url ? item.url : "/#"}
                             className={
-                              "badge rounded-pill float-end " + item.bgcolor
+                              item.issubMenubadge || item.isHasArrow
+                                ? " "
+                                : "has-arrow"
                             }
                           >
-                            {" "}
-                            {item.badgeValue}{" "}
-                          </span>
-                        )}
-                        <span>{props.t(item.label)}</span>
-                      </Link>
-                      {item.subItem && (
-                        <ul className="sub-menu">
-                          {item.subItem.map((item, key) => (
-                            <li key={key}>
-                              <Link
-                                to={item.link}
+                            <i
+                              className={item.icon}
+                              style={{ marginRight: "5px" }}
+                            ></i>
+                            {item.issubMenubadge && (
+                              <span
                                 className={
-                                  item.subMenu && "has-arrow waves-effect"
+                                  "badge rounded-pill float-end " + item.bgcolor
                                 }
                               >
-                                {props.t(item.sublabel)}
-                              </Link>
-                              {item.subMenu && (
-                                <ul className="sub-menu">
-                                  {item.subMenu.map((item, key) => (
-                                    <li key={key}>
-                                      <Link to="#">{props.t(item.title)}</Link>
-                                    </li>
-                                  ))}
-                                </ul>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
+                                {" "}
+                                {item.badgeValue}{" "}
+                              </span>
+                            )}
+                            <span>{props.t(item.label)}</span>
+                          </Link>
+                          {item.subItem && (
+                            <ul className="sub-menu">
+                              {item.subItem.map((subItem, subKey) => (
+                                <li key={subKey}>
+                                  <Link
+                                    to={subItem.link}
+                                    className={
+                                      subItem.subMenu &&
+                                      "has-arrow waves-effect"
+                                    }
+                                  >
+                                    {props.t(subItem.sublabel)}
+                                  </Link>
+                                  {subItem.subMenu && (
+                                    <ul className="sub-menu">
+                                      {subItem.subMenu.map(
+                                        (nestedItem, nestedKey) => (
+                                          <li key={nestedKey}>
+                                            <Link to="#">
+                                              {props.t(nestedItem.title)}
+                                            </Link>
+                                          </li>
+                                        )
+                                      )}
+                                    </ul>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </li>
                       )}
-                    </li>
+                    </>
                   )}
                 </React.Fragment>
               ))}

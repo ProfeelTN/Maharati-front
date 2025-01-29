@@ -44,7 +44,7 @@ const Add = (props) => {
     const emailUsed = await axios.get(
       import.meta.env.VITE_HOST + `/users/email/${updatedArray.Email.trim()}`
     );
-    if (emailUsed.data.Email) {
+    if (emailUsed.data) {
       setEmailUsed(true);
       throw new Error("Email Used");
     }
@@ -52,7 +52,7 @@ const Add = (props) => {
     const phoneUsed = await axios.get(
       import.meta.env.VITE_HOST + `/users/phone/${updatedArray.PhoneNumber}`
     );
-    if (phoneUsed.data.PhoneNumber) {
+    if (phoneUsed.data) {
       setPhoneUsed(true);
       throw new Error("Phone Used");
     }

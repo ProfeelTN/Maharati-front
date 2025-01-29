@@ -37,26 +37,14 @@ const Footer = () => {
                       <img src={logo} alt="logo" />
                     </a>
                   </div>
-                  <p className="footer-text">
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                    Donec commodo ligula in dolor lacinia, ut imperdiet sapien
-                    dictum.
-                  </p>
-                  <div className="footer-media">
-                    <div className="media-icon">
-                      <FontAwesomeIcon icon={faPhoneAlt} />
-                    </div>
-                    <div className="media-body">
-                      <span className="media-title">University Prospects</span>
-                      <a href="#">Download.pdf</a>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
             <div className="col-md-6 col-xl-3">
               <div className="widget footer-widget">
-                <h3 className="widget_title">Find Campus</h3>
+                <h3 className="widget_title" style={{ color: "white" }}>
+                  Find Campus
+                </h3>
                 <div className="footer-campus">
                   <div className="campus-img mega-hover">
                     <a href="#">
@@ -64,15 +52,17 @@ const Footer = () => {
                     </a>
                   </div>
                   <p className="campus-address">
-                    <FontAwesomeIcon icon={faAngleRight} /> 1309 Beacon Street,
-                    Suite 300, Brookline, MA, 02446
+                    <FontAwesomeIcon icon={faAngleRight} /> St Commandant
+                    Bejaoui, Sousse, 4000
                   </p>
                 </div>
               </div>
             </div>
             <div className="col-md-6 col-xl-3">
               <div className="widget nav_menu footer-widget">
-                <h3 className="widget_title">Popular Subjects</h3>
+                <h3 className="widget_title" style={{ color: "white" }}>
+                  Popular Subjects
+                </h3>
                 <div className="menu-all-pages-container footer-menu">
                   <ul className="menu">
                     <li>
@@ -111,7 +101,9 @@ const Footer = () => {
             <div className="col-md-6 col-xl-3">
               <div className="widget footer-widget">
                 <div className="contact-style1">
-                  <h4 className="contact-title">Looking to study with us?</h4>
+                  <h4 className="contact-title" style={{ color: "white" }}>
+                    Looking to study with us?
+                  </h4>
                   <p className="contact-text">Speak to an adviser</p>
                   <a href="tel:+00123456789" className="contact-number h5">
                     <FontAwesomeIcon icon={faPhoneAlt} /> (+216) 23 456 789
@@ -130,7 +122,8 @@ const Footer = () => {
           <div className="row justify-content-between align-items-center">
             <div className="text-center col-lg-auto">
               <p className="copyright-text">
-                Copyright <FontAwesomeIcon icon={faCopyright} /> 2024{" "}
+                Copyright <FontAwesomeIcon icon={faCopyright} />{" "}
+                {new Date().getFullYear() + " "}
                 <a href="">Maharati</a>. All Rights Reserved By Profeel
               </p>
             </div>

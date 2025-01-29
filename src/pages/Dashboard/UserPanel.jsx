@@ -49,7 +49,7 @@ const UserPanel = () => {
                 </div>
 
                 <div className="flex-grow-1 overflow-hidden">
-                  <p className="mb-1">Views per minute</p>
+                  <p className="mb-1">Subscribers</p>
                   <h5 className="mb-3">50</h5>
                   <p className="text-truncate mb-0">
                     <span className="text-success me-2">
@@ -78,8 +78,8 @@ const UserPanel = () => {
                 </div>
 
                 <div className="flex-grow-1 overflow-hidden">
-                  <p className="mb-1">Bounce Rate</p>
-                  <h5 className="mb-3">24.03 %</h5>
+                  <p className="mb-1">Satisfaction</p>
+                  <h5 className="mb-3">95.03 %</h5>
                   <p className="text-truncate mb-0">
                     <span className="text-danger me-2">
                       {" "}

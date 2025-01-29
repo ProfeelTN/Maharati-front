@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useLogout from "../../hooks/useLogout";
 import LanguageDropdown from "../Common/TopbarDropdown/LanguageDropdown";
+import { useSnackbar } from "notistack";
 const Navbar = () => {
   const { auth } = useAuth();
   const logout = useLogout();
@@ -14,6 +15,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     await logout();
+    enqueueSnackbar("You have been logged out", { variant: "success" });
     const from = location.state?.from?.pathname || "/";
     navigate(from, { replace: true });
   };
@@ -186,7 +188,7 @@ const Navbar = () => {
                     </li>
                     <li>
                       <i className="fas fa-envelope"></i>Email:
-                      <a>CONTACT@MAHARATI.TN</a>
+                      <a>{"CONTACT@MAHARATI.TN".toLowerCase()}</a>
                     </li>
                   </ul>
                 </div>
@@ -240,7 +242,7 @@ const Navbar = () => {
                       <li>
                         <Link to="/courses">Courses</Link>
                       </li>
-                      <li className="menu-item-has-children">
+                      {/* <li className="menu-item-has-children">
                         <a href="">Tutor</a>
                         <ul className="sub-menu">
                           <li>
@@ -256,7 +258,7 @@ const Navbar = () => {
                             <a href="">Find Tutor</a>
                           </li>
                         </ul>
-                      </li>
+                      </li> */}
                       <li>
                         <Link to="/contact">Contact Us</Link>
                       </li>
@@ -284,8 +286,8 @@ const Navbar = () => {
                       Find Program
                     </a> */}
                 <div className="col-auto">
-                  <div className="vs-btn style4 loginButton">
-                    {auth.user == null ? (
+                  {auth.user == null ? (
+                    <div className="vs-btn style4 loginButton">
                       <Link
                         to="/login"
                         style={{
@@ -300,24 +302,47 @@ const Navbar = () => {
                         ></i>
                         <div className="authentification">Login / Register</div>
                       </Link>
-                    ) : (
-                      <Link
-                        to="/"
-                        onClick={handleLogout}
-                        style={{
-                          display: "flex",
-                          textDecoration: "none",
-                          color: "black",
-                        }}
+                    </div>
+                  ) : (
+                    <>
+                      <div
+                        className="vs-btn style4 loginButton"
+                        style={{ marginRight: "10px" }}
                       >
-                        <i
-                          className="fas fa-user-circle"
-                          style={{ color: "black", fontSize: "1rem" }}
-                        ></i>
-                        <div className="authentification">Logout</div>
-                      </Link>
-                    )}
-                  </div>
+                        <Link
+                          to="/dashboard"
+                          style={{
+                            display: "flex",
+                            textDecoration: "none",
+                            color: "black",
+                          }}
+                        >
+                          <i
+                            className="fas fa-list-alt"
+                            style={{ color: "black", fontSize: "1rem" }}
+                          ></i>
+                          <div className="authentification">Dashboard</div>
+                        </Link>
+                      </div>
+                      <div className="vs-btn style4 loginButton">
+                        <Link
+                          to="/"
+                          onClick={handleLogout}
+                          style={{
+                            display: "flex",
+                            textDecoration: "none",
+                            color: "black",
+                          }}
+                        >
+                          <i
+                            className="fas fa-user-circle"
+                            style={{ color: "black", fontSize: "1rem" }}
+                          ></i>
+                          <div className="authentification">Logout</div>
+                        </Link>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
